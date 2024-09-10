@@ -7,8 +7,6 @@ import {
   getPlugins,
 } from "./helper";
 
-const headerHeight = 80;
-
 const translations: { label: string, value: string }[] = [
   { value: 'en', label: 'English' },
   { value: 'zh', label: 'Chinese' },
@@ -90,7 +88,7 @@ function App() {
 
   return (
     <div>
-      <div ref={designerRef} style={{ width: '100%', height: `calc(100vh - ${headerHeight}px)` }} />
+      <div ref={designerRef} style={{ width: '100%', height: `calc(100vh)` }} />
     </div>
   );
 }

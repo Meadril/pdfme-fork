@@ -50,25 +50,25 @@ export const getFontsData = async () => {
   return fontDataList.reduce((acc, font) => ({ ...acc, [font.label]: font }), {} as Font);
 };
 
-export const readFile = (file: File | null, type: 'text' | 'dataURL' | 'arrayBuffer') => {
-  return new Promise<string | ArrayBuffer>((r) => {
-    const fileReader = new FileReader();
-    fileReader.addEventListener('load', (e) => {
-      if (e && e.target && e.target.result && file !== null) {
-        r(e.target.result);
-      }
-    });
-    if (file !== null) {
-      if (type === 'text') {
-        fileReader.readAsText(file);
-      } else if (type === 'dataURL') {
-        fileReader.readAsDataURL(file);
-      } else if (type === 'arrayBuffer') {
-        fileReader.readAsArrayBuffer(file);
-      }
-    }
-  });
-};
+// export const readFile = (file: File | null, type: 'text' | 'dataURL' | 'arrayBuffer') => {
+//   return new Promise<string | ArrayBuffer>((r) => {
+//     const fileReader = new FileReader();
+//     fileReader.addEventListener('load', (e) => {
+//       if (e && e.target && e.target.result && file !== null) {
+//         r(e.target.result);
+//       }
+//     });
+//     if (file !== null) {
+//       if (type === 'text') {
+//         fileReader.readAsText(file);
+//       } else if (type === 'dataURL') {
+//         fileReader.readAsDataURL(file);
+//       } else if (type === 'arrayBuffer') {
+//         fileReader.readAsArrayBuffer(file);
+//       }
+//     }
+//   });
+// };
 
 // export const cloneDeep = (obj: unknown) => JSON.parse(JSON.stringify(obj));
 //
@@ -124,16 +124,16 @@ export const getPlugins = () => {
     SVG: svg,
     Signature: plugins.signature,
     QR: barcodes.qrcode,
-    JAPANPOST: barcodes.japanpost,
-    EAN13: barcodes.ean13,
-    EAN8: barcodes.ean8,
-    Code39: barcodes.code39,
-    Code128: barcodes.code128,
-    NW7: barcodes.nw7,
-    ITF14: barcodes.itf14,
-    UPCA: barcodes.upca,
-    UPCE: barcodes.upce,
-    GS1DataMatrix: barcodes.gs1datamatrix,
+    // JAPANPOST: barcodes.japanpost,
+    // EAN13: barcodes.ean13,
+    // EAN8: barcodes.ean8,
+    // Code39: barcodes.code39,
+    // Code128: barcodes.code128,
+    // NW7: barcodes.nw7,
+    // ITF14: barcodes.itf14,
+    // UPCA: barcodes.upca,
+    // UPCE: barcodes.upce,
+    // GS1DataMatrix: barcodes.gs1datamatrix,
   };
 };
 

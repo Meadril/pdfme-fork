@@ -46,8 +46,8 @@ const LeftSidebar = ({ height, scale, basePdf }: { height: number, scale: number
   const { token } = theme.useToken();
   const pluginsRegistry = useContext(PluginsRegistry);
   const [isDragging, setIsDragging] = useState(false);
-    const [sidebarWidth, setSidebarWidth] = useState(45);
-    const sidebarRef = useRef<HTMLDivElement>(null);
+  const [sidebarWidth, setSidebarWidth] = useState(40);
+  const sidebarRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handleMouseUp = () => {
       if (isDragging) {
@@ -57,9 +57,9 @@ const LeftSidebar = ({ height, scale, basePdf }: { height: number, scale: number
 
       const checkScrollbar = () => {
           const sidebar = sidebarRef.current;
-          if (sidebar) {
+              if (sidebar) {
               const hasScrollbar = sidebar.scrollHeight > sidebar.clientHeight;
-              setSidebarWidth(hasScrollbar ? 55 : 45);
+              setSidebarWidth(hasScrollbar ? 55 : 40);
           }
       };
 
@@ -71,6 +71,7 @@ const LeftSidebar = ({ height, scale, basePdf }: { height: number, scale: number
   }, [isDragging]);
 
   return <div
+      ref={sidebarRef}
     style={{
       left: 0,
       right: 0,
