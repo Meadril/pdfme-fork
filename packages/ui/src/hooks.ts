@@ -1,5 +1,6 @@
 import { RefObject, useRef, useState, useCallback, useEffect } from 'react';
 import {
+  cloneDeep,
   ZOOM,
   Template,
   Size,
@@ -12,7 +13,6 @@ import {
 import {
   schemasList2template,
   uuid,
-  cloneDeep,
   getUniqSchemaKey,
   moveCommandToChangeSchemasArg,
   pdf2Pngs,
@@ -33,7 +33,7 @@ export const usePrevious = <T>(value: T) => {
 };
 
 const getScale = (n: number, paper: number) =>
-  Math.floor((n / paper > 1 ? 1 : n / paper) * 100) / 100;
+    Math.floor((n / paper > 1 ? 1 : n / paper) * 100) / 100;
 
 type UIPreProcessorProps = { template: Template; size: Size; zoomLevel: number };
 
@@ -55,8 +55,8 @@ export const useUIPreProcessor = ({ template, size, zoomLevel }: UIPreProcessorP
       paperWidth = width * ZOOM;
       paperHeight = height * ZOOM;
       _backgrounds = schemas.map(
-        () =>
-          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdj+P///38ACfsD/QVDRcoAAAAASUVORK5CYII='
+          () =>
+              'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdj+P///38ACfsD/QVDRcoAAAAASUVORK5CYII='
       );
       _pageSizes = schemas.map(() => ({ width, height }));
     } else {
@@ -68,8 +68,8 @@ export const useUIPreProcessor = ({ template, size, zoomLevel }: UIPreProcessorP
       _backgrounds = await pdf2Pngs(pdfBlob, paperWidth);
     }
     const _scale = Math.min(
-      getScale(size.width, paperWidth),
-      getScale(size.height - RULER_HEIGHT, paperHeight)
+        getScale(size.width, paperWidth),
+        getScale(size.height - RULER_HEIGHT, paperHeight)
     );
 
     return { backgrounds: _backgrounds, pageSizes: _pageSizes, scale: _scale };
@@ -77,13 +77,13 @@ export const useUIPreProcessor = ({ template, size, zoomLevel }: UIPreProcessorP
 
   useEffect(() => {
     init({ template, size })
-      .then(({ pageSizes, scale, backgrounds }) => {
-        setPageSizes(pageSizes), setScale(scale), setBackgrounds(backgrounds);
-      })
-      .catch((err: Error) => {
-        setError(err);
-        console.error(`[@pdfme/ui] ${err}`);
-      });
+        .then(({ pageSizes, scale, backgrounds }) => {
+          setPageSizes(pageSizes), setScale(scale), setBackgrounds(backgrounds);
+        })
+        .catch((err: Error) => {
+          setError(err);
+          console.error(`[@pdfme/ui] ${err}`);
+        });
   }, [template, size]);
 
   return {
@@ -92,9 +92,9 @@ export const useUIPreProcessor = ({ template, size, zoomLevel }: UIPreProcessorP
     scale: scale * zoomLevel,
     error,
     refresh: (template: Template) =>
-      init({ template, size }).then(({ pageSizes, scale, backgrounds }) => {
-        setPageSizes(pageSizes), setScale(scale), setBackgrounds(backgrounds);
-      }),
+        init({ template, size }).then(({ pageSizes, scale, backgrounds }) => {
+          setPageSizes(pageSizes), setScale(scale), setBackgrounds(backgrounds);
+        }),
   };
 };
 
@@ -107,12 +107,12 @@ type ScrollPageCursorProps = {
 };
 
 export const useScrollPageCursor = ({
-  ref,
-  pageSizes,
-  scale,
-  pageCursor,
-  onChangePageCursor,
-}: ScrollPageCursorProps) => {
+                                      ref,
+                                      pageSizes,
+                                      scale,
+                                      pageCursor,
+                                      onChangePageCursor,
+                                    }: ScrollPageCursorProps) => {
   const onScroll = useCallback(() => {
     if (!pageSizes[0] || !ref.current) {
       return;
@@ -179,21 +179,21 @@ interface UseInitEventsParams {
 }
 
 export const useInitEvents = ({
-  pageCursor,
-  pageSizes,
-  activeElements,
-  template,
-  schemasList,
-  changeSchemas,
-  commitSchemas,
-  removeSchemas,
-  onSaveTemplate,
-  past,
-  future,
-  setSchemasList,
-  onEdit,
-  onEditEnd,
-}: UseInitEventsParams) => {
+                                pageCursor,
+                                pageSizes,
+                                activeElements,
+                                template,
+                                schemasList,
+                                changeSchemas,
+                                commitSchemas,
+                                removeSchemas,
+                                onSaveTemplate,
+                                past,
+                                future,
+                                setSchemasList,
+                                onEdit,
+                                onEditEnd,
+                              }: UseInitEventsParams) => {
   const copiedSchemas = useRef<SchemaForUI[] | null>(null);
 
   const initEvents = useCallback(() => {
@@ -247,7 +247,7 @@ export const useInitEvents = ({
       redo: () => timeTravel('redo'),
       undo: () => timeTravel('undo'),
       save: () =>
-        onSaveTemplate && onSaveTemplate(schemasList2template(schemasList, template.basePdf)),
+          onSaveTemplate && onSaveTemplate(schemasList2template(schemasList, template.basePdf)),
       remove: () => removeSchemas(getActiveSchemas().map((s) => s.id)),
       esc: onEditEnd,
       selectAll: () => onEdit(schemasList[pageCursor].map((s) => document.getElementById(s.id)!)),

@@ -15,7 +15,6 @@ import type {
   StylesProps,
   Section,
 } from './types';
-import { cloneDeep } from '../utils';
 import { Cell, Column, Row, Table } from './classes';
 
 type StyleProp = 'styles' | 'headStyles' | 'bodyStyles' | 'alternateRowStyles' | 'columnStyles';
@@ -47,11 +46,11 @@ interface UserOptions {
 }
 
 function parseSection(
-  sectionName: Section,
-  sectionRows: string[][],
-  columns: Column[],
-  styleProps: StylesProps,
-  fallbackFontName: string
+    sectionName: Section,
+    sectionRows: string[][],
+    columns: Column[],
+    styleProps: StylesProps,
+    fallbackFontName: string
 ): Row[] {
   const rowSpansLeftForColumn: { [key: string]: { left: number; times: number } } = {};
   const result = sectionRows.map((rawRow, rowIndex) => {
@@ -62,8 +61,8 @@ function parseSection(
     let columnSpansLeft = 0;
     for (const column of columns) {
       if (
-        rowSpansLeftForColumn[column.index] == null ||
-        rowSpansLeftForColumn[column.index].left === 0
+          rowSpansLeftForColumn[column.index] == null ||
+          rowSpansLeftForColumn[column.index].left === 0
       ) {
         if (columnSpansLeft === 0) {
           let rawCell;
@@ -108,11 +107,11 @@ function parseContent4Table(input: TableInput, fallbackFontName: string) {
 }
 
 function cellStyles(
-  sectionName: Section,
-  column: Column,
-  rowIndex: number,
-  styles: StylesProps,
-  fallbackFontName: string
+    sectionName: Section,
+    column: Column,
+    rowIndex: number,
+    styles: StylesProps,
+    fallbackFontName: string
 ) {
   let sectionStyles;
   if (sectionName === 'head') {
@@ -125,9 +124,9 @@ function cellStyles(
   const colStyles = styles.columnStyles[column.index] || styles.columnStyles[column.index] || {};
 
   const rowStyles =
-    sectionName === 'body' && rowIndex % 2 === 0
-      ? Object.assign({}, styles.alternateRowStyles)
-      : {};
+      sectionName === 'body' && rowIndex % 2 === 0
+          ? Object.assign({}, styles.alternateRowStyles)
+          : {};
 
   const defaultStyle = {
     fontName: fallbackFontName,
@@ -165,9 +164,9 @@ function mapCellStyle(style: CellStyle): Partial<Styles> {
 }
 
 function createTableWithAvailableHeight(
-  tableBody: Row[],
-  availableHeight: number,
-  args: CreateTableArgs
+    tableBody: Row[],
+    availableHeight: number,
+    args: CreateTableArgs
 ) {
   let limit = availableHeight;
   const newTableBody: string[][] = [];
@@ -188,13 +187,13 @@ function createTableWithAvailableHeight(
 
 function getTableOptions(schema: TableSchema, body: string[][]): UserOptions {
   const columnStylesWidth = schema.headWidthPercentages.reduce(
-    (acc, cur, i) => ({ ...acc, [i]: { cellWidth: schema.width * (cur / 100) } }),
-    {} as Record<number, Partial<Styles>>
+      (acc, cur, i) => ({ ...acc, [i]: { cellWidth: schema.width * (cur / 100) } }),
+      {} as Record<number, Partial<Styles>>
   );
 
   const columnStylesAlignment = Object.entries(schema.columnStyles.alignment || {}).reduce(
-    (acc, [key, value]) => ({ ...acc, [key]: { alignment: value } }),
-    {} as Record<number, Partial<Styles>>
+      (acc, [key, value]) => ({ ...acc, [key]: { alignment: value } }),
+      {} as Record<number, Partial<Styles>>
   );
 
   const allKeys = new Set([
@@ -281,42 +280,4 @@ export function createSingleTable(body: string[][], args: CreateTableArgs) {
   const content = parseContent4Table(input, fallbackFontName);
 
   return Table.create({ input, content, font, _cache });
-}
-
-export async function createMultiTables(body: string[][], args: CreateTableArgs): Promise<Table[]> {
-  const { basePdf, schema } = args;
-
-  if (!isBlankPdf(basePdf)) throw new Error('[@pdfme/schema/table] Custom PDF is not supported');
-  const pageHeight = basePdf.height;
-  const paddingBottom = basePdf.padding[2];
-  const paddingTop = basePdf.padding[0];
-  let availableHeight = pageHeight - paddingBottom - schema.position.y;
-
-  const testTable = await createSingleTable(body, args);
-  let remainingBody = testTable.body;
-  const tables: Table[] = [];
-
-  while (remainingBody.length > 0) {
-    const tableHeight =
-      tables.length === 0
-        ? availableHeight - testTable.getHeadHeight()
-        : availableHeight - paddingTop;
-
-    const table = await createTableWithAvailableHeight(remainingBody, tableHeight, args);
-
-    tables.push(table);
-
-    remainingBody = remainingBody.slice(table.body.length);
-
-    if (remainingBody.length > 0) {
-      const _schema = cloneDeep(schema);
-      _schema.showHead = false;
-      _schema.position.y = paddingTop;
-      args.schema = _schema;
-
-      availableHeight = pageHeight - paddingTop - paddingBottom;
-    }
-  }
-
-  return tables;
 }

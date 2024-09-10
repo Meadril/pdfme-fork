@@ -70,16 +70,6 @@ export const getFontsData = async () => {
 //   });
 // };
 
-// export const cloneDeep = (obj: unknown) => JSON.parse(JSON.stringify(obj));
-//
-// const getTemplateFromJsonFile = (file: File) => {
-//   return readFile(file, 'text').then((jsonStr) => {
-//     const template: Template = JSON.parse(jsonStr as string);
-//     checkTemplate(template);
-//     return template;
-//   });
-// };
-
 // export const downloadJsonFile = (json: unknown, title: string) => {
 //   if (typeof window !== 'undefined') {
 //     const blob = new Blob([JSON.stringify(json)], {

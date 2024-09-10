@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
+  cloneDeep,
   Template,
   DesignerProps,
   checkDesignerProps,
@@ -11,7 +12,6 @@ import { BaseUIClass } from './class';
 import { DESTROYED_ERR_MSG } from './constants.js';
 import DesignerComponent from './components/Designer/index';
 import AppContextProvider from './components/AppContextProvider';
-import { cloneDeep } from './helper.js';
 
 class Designer extends BaseUIClass {
   private onSaveTemplateCallback?: (template: Template) => void;
@@ -47,7 +47,7 @@ class Designer extends BaseUIClass {
   public onChangeTemplate(cb: (template: Template) => void) {
     this.onChangeTemplateCallback = cb;
   }
-  
+
   public getPageCursor() {
     return this.pageCursor
   }
@@ -55,35 +55,35 @@ class Designer extends BaseUIClass {
   protected render() {
     if (!this.domContainer) throw Error(DESTROYED_ERR_MSG);
     ReactDOM.render(
-      <AppContextProvider
-        lang={this.getLang()}
-        font={this.getFont()}
-        plugins={this.getPluginsRegistry()}
-        options={this.getOptions()}
-      >
-        <DesignerComponent
-          template={this.template}
-          onSaveTemplate={(template) => {
-            this.template = template;
-            this.template.pdfmeVersion = PDFME_VERSION;
-            if (this.onSaveTemplateCallback) {
-              this.onSaveTemplateCallback(template);
-            }
-          }}
-          onChangeTemplate={(template) => {
-            this.template = template;
-            this.template.pdfmeVersion = PDFME_VERSION;
-            if (this.onChangeTemplateCallback) {
-              this.onChangeTemplateCallback(template);
-            }
-          }}
-          onPageCursorChange={(newPageCursor: number) => {
-            this.pageCursor = newPageCursor
-          }}
-          size={this.size}
-        />
-      </AppContextProvider>,
-      this.domContainer
+        <AppContextProvider
+            lang={this.getLang()}
+            font={this.getFont()}
+            plugins={this.getPluginsRegistry()}
+            options={this.getOptions()}
+        >
+          <DesignerComponent
+              template={this.template}
+              onSaveTemplate={(template) => {
+                this.template = template;
+                this.template.pdfmeVersion = PDFME_VERSION;
+                if (this.onSaveTemplateCallback) {
+                  this.onSaveTemplateCallback(template);
+                }
+              }}
+              onChangeTemplate={(template) => {
+                this.template = template;
+                this.template.pdfmeVersion = PDFME_VERSION;
+                if (this.onChangeTemplateCallback) {
+                  this.onChangeTemplateCallback(template);
+                }
+              }}
+              onPageCursorChange={(newPageCursor: number) => {
+                this.pageCursor = newPageCursor
+              }}
+              size={this.size}
+          />
+        </AppContextProvider>,
+        this.domContainer
     );
   }
 }

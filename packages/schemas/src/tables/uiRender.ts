@@ -6,6 +6,8 @@ import { getBody, getBodyWithRange } from './helper.js';
 import cell from './cell.js';
 import { Row } from './classes';
 
+const buttonSize = 30;
+
 type RowType = InstanceType<typeof Row>;
 
 const cellUiRender = cell.ui;
@@ -32,7 +34,7 @@ const calcResizedHeadWidthPercentages = (arg: {
   changedHeadIndex: number;
 }) => {
   const { currentHeadWidthPercentages, currentHeadWidths, changedHeadWidth, changedHeadIndex } =
-    arg;
+      arg;
   const headWidthPercentages = [...currentHeadWidthPercentages];
   const totalWidth = currentHeadWidths.reduce((a, b) => a + b, 0);
   const changedWidthPercentage = (changedHeadWidth / totalWidth) * 100;
@@ -46,22 +48,22 @@ const calcResizedHeadWidthPercentages = (arg: {
 };
 
 const setBorder = (
-  div: HTMLDivElement,
-  borderPosition: 'Top' | 'Left' | 'Right' | 'Bottom',
-  arg: UIRenderProps<TableSchema>
+    div: HTMLDivElement,
+    borderPosition: 'Top' | 'Left' | 'Right' | 'Bottom',
+    arg: UIRenderProps<TableSchema>
 ) => {
   div.style[`border${borderPosition}`] = `${String(arg.schema.tableStyles.borderWidth)}mm solid ${
-    arg.schema.tableStyles.borderColor
+      arg.schema.tableStyles.borderColor
   }`;
 };
 
 const drawBorder = (
-  div: HTMLDivElement,
-  row: RowType,
-  colIndex: number,
-  rowIndex: number,
-  rowsLength: number,
-  arg: UIRenderProps<TableSchema>
+    div: HTMLDivElement,
+    row: RowType,
+    colIndex: number,
+    rowIndex: number,
+    rowsLength: number,
+    arg: UIRenderProps<TableSchema>
 ) => {
   const isFirstColumn = colIndex === 0;
   const isLastColumn = colIndex === Object.values(row.cells).length - 1;
@@ -110,7 +112,7 @@ const renderRowUi = (args: {
       drawBorder(div, row, colIndex, rowIndex, rows.length, arg);
 
       div.style.cursor =
-        arg.mode === 'designer' || (arg.mode === 'form' && section === 'body') ? 'text' : 'default';
+          arg.mode === 'designer' || (arg.mode === 'form' && section === 'body') ? 'text' : 'default';
 
       div.addEventListener('click', () => {
         if (arg.mode === 'viewer') return;
@@ -118,7 +120,7 @@ const renderRowUi = (args: {
       });
       arg.rootElement.appendChild(div);
       const isEditing =
-        editingPosition.rowIndex === rowIndex && editingPosition.colIndex === colIndex;
+          editingPosition.rowIndex === rowIndex && editingPosition.colIndex === colIndex;
       let mode: Mode = 'viewer';
       if (arg.mode === 'form') {
         mode = section === 'body' && isEditing && !arg.schema.readOnly ? 'designer' : 'viewer';
@@ -183,8 +185,8 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
   rootElement.innerHTML = '';
 
   const handleChangeEditingPosition = (
-    newPosition: { rowIndex: number; colIndex: number },
-    editingPosition: { rowIndex: number; colIndex: number }
+      newPosition: { rowIndex: number; colIndex: number },
+      editingPosition: { rowIndex: number; colIndex: number }
   ) => {
     resetEditingPosition();
     editingPosition.rowIndex = newPosition.rowIndex;
@@ -212,17 +214,17 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
     offsetY,
   });
 
-  if (onChange) {
+  if (onChange && !schema.readOnly) {
     if (
-      schema.__bodyRange?.end === undefined ||
-      schema.__bodyRange.end >= (JSON.parse(value || '[]') as string[][]).length
+        schema.__bodyRange?.end === undefined ||
+        schema.__bodyRange.end >= (JSON.parse(value || '[]') as string[][]).length
     ) {
       const addRowButton = document.createElement('button');
-      addRowButton.style.width = '30px';
-      addRowButton.style.height = '30px';
+      addRowButton.style.width = `${buttonSize}px`;
+      addRowButton.style.height = `${buttonSize}px`;
       addRowButton.style.position = 'absolute';
       addRowButton.style.top = `${table.getHeight()}mm`;
-      addRowButton.style.left = 'calc(50% - 15px)';
+      addRowButton.style.left = `calc(50% - ${buttonSize / 2}px)`;
       addRowButton.innerText = '+';
       addRowButton.onclick = () => {
         const newRow = Array(schema.head.length).fill('') as string[];
@@ -235,11 +237,11 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
     table.body.forEach((row, i) => {
       offsetY = offsetY + row.height;
       const removeRowButton = document.createElement('button');
-      removeRowButton.style.width = '30px';
-      removeRowButton.style.height = '30px';
+      removeRowButton.style.width = `${buttonSize}px`;
+      removeRowButton.style.height = `${buttonSize}px`;
       removeRowButton.style.position = 'absolute';
-      removeRowButton.style.top = `${offsetY - px2mm(30)}mm`;
-      removeRowButton.style.right = '-30px';
+      removeRowButton.style.top = `${offsetY - px2mm(buttonSize)}mm`;
+      removeRowButton.style.right = `-${buttonSize}px`;
       removeRowButton.innerText = '-';
       removeRowButton.onclick = () => {
         const newTableBody = body.filter((_, j) => j !== i + (schema.__bodyRange?.start ?? 0));
@@ -249,11 +251,11 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
     });
 
     const addColumnButton = document.createElement('button');
-    addColumnButton.style.width = '30px';
-    addColumnButton.style.height = '30px';
+    addColumnButton.style.width = `${buttonSize}px`;
+    addColumnButton.style.height = `${buttonSize}px`;
     addColumnButton.style.position = 'absolute';
-    addColumnButton.style.top = `${table.getHeadHeight() - px2mm(30)}mm`;
-    addColumnButton.style.right = '-30px';
+    addColumnButton.style.top = `${table.getHeadHeight() - px2mm(buttonSize)}mm`;
+    addColumnButton.style.right = `-${buttonSize}px`;
     addColumnButton.innerText = '+';
     addColumnButton.onclick = (e) => {
       e.preventDefault();
@@ -276,17 +278,17 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
     table.columns.forEach((column, i) => {
       offsetX = offsetX + column.width;
       const removeColumnButton = document.createElement('button');
-      removeColumnButton.style.width = '30px';
-      removeColumnButton.style.height = '30px';
+      removeColumnButton.style.width = `${buttonSize}px`;
+      removeColumnButton.style.height = `${buttonSize}px`;
       removeColumnButton.style.position = 'absolute';
-      removeColumnButton.style.top = '-30px';
-      removeColumnButton.style.left = `${offsetX - px2mm(30)}mm`;
+      removeColumnButton.style.top = `-${buttonSize}px`;
+      removeColumnButton.style.left = `${offsetX - px2mm(buttonSize)}mm`;
       removeColumnButton.innerText = '-';
       removeColumnButton.onclick = (e) => {
         e.preventDefault();
         const totalWidthMinusRemoved = schema.headWidthPercentages.reduce(
-          (sum, width, j) => (j !== i ? sum + width : sum),
-          0
+            (sum, width, j) => (j !== i ? sum + width : sum),
+            0
         );
 
         // TODO Should also remove the deleted columnStyles when deleting
@@ -295,8 +297,8 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
           {
             key: 'headWidthPercentages',
             value: schema.headWidthPercentages
-              .filter((_, j) => j !== i)
-              .map((width) => (width / totalWidthMinusRemoved) * 100),
+                .filter((_, j) => j !== i)
+                .map((width) => (width / totalWidthMinusRemoved) * 100),
           },
           {
             key: 'content',
