@@ -212,7 +212,7 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
     offsetY,
   });
 
-  if (mode === 'form' && onChange && !schema.readOnly) {
+  if (onChange) {
     if (
       schema.__bodyRange?.end === undefined ||
       schema.__bodyRange.end >= (JSON.parse(value || '[]') as string[][]).length
@@ -247,9 +247,7 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
       };
       rootElement.appendChild(removeRowButton);
     });
-  }
 
-  if (mode === 'designer' && onChange) {
     const addColumnButton = document.createElement('button');
     addColumnButton.style.width = '30px';
     addColumnButton.style.height = '30px';

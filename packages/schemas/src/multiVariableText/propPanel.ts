@@ -62,6 +62,10 @@ export const propPanel: PropPanel<MultiVariableTextSchema> = {
     }
     return {
       ...parentPropPanel.schema(propPanelProps),
+      groupContainer:{
+        title: "Group Container",
+        type: 'string',
+      },
       '-------': { type: 'void', widget: 'Divider' },
       dynamicVarContainer: {
         title: propPanelProps.i18n('schemas.mvt.variablesSampleData'),

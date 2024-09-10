@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef} from 'react';
 import {
   Schema,
   Plugin,
@@ -46,7 +46,8 @@ const LeftSidebar = ({ height, scale, basePdf }: { height: number, scale: number
   const { token } = theme.useToken();
   const pluginsRegistry = useContext(PluginsRegistry);
   const [isDragging, setIsDragging] = useState(false);
-
+    const [sidebarWidth, setSidebarWidth] = useState(45);
+    const sidebarRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handleMouseUp = () => {
       if (isDragging) {
@@ -54,8 +55,16 @@ const LeftSidebar = ({ height, scale, basePdf }: { height: number, scale: number
       }
     };
 
-    document.addEventListener('mouseup', handleMouseUp);
+      const checkScrollbar = () => {
+          const sidebar = sidebarRef.current;
+          if (sidebar) {
+              const hasScrollbar = sidebar.scrollHeight > sidebar.clientHeight;
+              setSidebarWidth(hasScrollbar ? 55 : 45);
+          }
+      };
 
+    document.addEventListener('mouseup', handleMouseUp);
+    checkScrollbar();
     return () => {
       document.removeEventListener('mouseup', handleMouseUp);
     };
@@ -68,7 +77,7 @@ const LeftSidebar = ({ height, scale, basePdf }: { height: number, scale: number
       position: 'absolute',
       zIndex: 1,
       height,
-      width: 45,
+      width: sidebarWidth,
       background: token.colorBgLayout,
       textAlign: 'center',
       overflow: isDragging ? 'visible' : 'auto',

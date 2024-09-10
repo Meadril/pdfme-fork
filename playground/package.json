@@ -11,10 +11,10 @@
     "deploy": "gh-pages -d dist -b playground"
   },
   "dependencies": {
-    "@pdfme/common": "file:../packages/common/dist",
-    "@pdfme/generator": "file:../packages/generator/dist",
-    "@pdfme/schemas": "file:../packages/schemas/dist",
-    "@pdfme/ui": "file:../packages/ui/dist",
+    "@pdfme/common": "file:../packages/common",
+    "@pdfme/generator": "file:../packages/generator",
+    "@pdfme/schemas": "file:../packages/schemas",
+    "@pdfme/ui": "file:../packages/ui",
     "esbuild": "^0.19.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
