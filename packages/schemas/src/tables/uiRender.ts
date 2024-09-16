@@ -177,7 +177,7 @@ const resetEditingPosition = () => {
 };
 
 export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
-  const { rootElement, onChange, schema, value, mode } = arg;
+  const { rootElement, onChange, schema, value } = arg;
   const body = getBody(value);
   const bodyWidthRange = getBodyWithRange(value, schema.__bodyRange);
   const table = await createSingleTable(bodyWidthRange, arg);
@@ -228,6 +228,7 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
       addRowButton.innerText = '+';
       addRowButton.onclick = () => {
         const newRow = Array(schema.head.length).fill('') as string[];
+        console.log(arg)
         onChange({ key: 'content', value: JSON.stringify(body.concat([newRow])) });
       };
       rootElement.appendChild(addRowButton);
@@ -382,9 +383,7 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
     });
   }
 
-  if (mode === 'viewer') {
-    resetEditingPosition();
-  }
+  resetEditingPosition();
 
   const tableHeight = schema.showHead ? table.getHeight() : table.getBodyHeight();
   if (schema.height !== tableHeight && onChange) {

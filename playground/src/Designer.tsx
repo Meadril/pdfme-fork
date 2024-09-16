@@ -87,9 +87,10 @@ function App() {
   }
 
   return (
-    <div>
-      <div ref={designerRef} style={{ width: '100%', height: `calc(100vh)` }} />
-    </div>
+      <div>
+        <button onClick={() => onSaveTemplate()} style={{margin: 10}}>Save Template</button>
+        <div ref={designerRef} style={{width: '100%', height: `calc(100vh)`}}/>
+      </div>
   );
 }
 

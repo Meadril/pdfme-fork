@@ -1,7 +1,7 @@
 import {
   Template,
   Font,
-  // checkTemplate,
+  checkTemplate,
   getInputFromTemplate,
   getDefaultFont,
   DEFAULT_FONT_NAME,
@@ -49,58 +49,6 @@ export const getFontsData = async () => {
 
   return fontDataList.reduce((acc, font) => ({ ...acc, [font.label]: font }), {} as Font);
 };
-
-// export const readFile = (file: File | null, type: 'text' | 'dataURL' | 'arrayBuffer') => {
-//   return new Promise<string | ArrayBuffer>((r) => {
-//     const fileReader = new FileReader();
-//     fileReader.addEventListener('load', (e) => {
-//       if (e && e.target && e.target.result && file !== null) {
-//         r(e.target.result);
-//       }
-//     });
-//     if (file !== null) {
-//       if (type === 'text') {
-//         fileReader.readAsText(file);
-//       } else if (type === 'dataURL') {
-//         fileReader.readAsDataURL(file);
-//       } else if (type === 'arrayBuffer') {
-//         fileReader.readAsArrayBuffer(file);
-//       }
-//     }
-//   });
-// };
-
-// export const downloadJsonFile = (json: unknown, title: string) => {
-//   if (typeof window !== 'undefined') {
-//     const blob = new Blob([JSON.stringify(json)], {
-//       type: 'application/json',
-//     });
-//     const url = URL.createObjectURL(blob);
-//     const link = document.createElement('a');
-//     link.href = url;
-//     link.download = `${title}.json`;
-//     link.click();
-//     URL.revokeObjectURL(url);
-//   }
-// };
-
-// export const handleLoadTemplate = (
-//   e: React.ChangeEvent<HTMLInputElement>,
-//   currentRef: Designer | Form | Viewer | null
-// ) => {
-//   if (e.target && e.target.files) {
-//     getTemplateFromJsonFile(e.target.files[0])
-//       .then((t) => {
-//         if (!currentRef) return;
-//         currentRef.updateTemplate(t);
-//       })
-//       .catch((e) => {
-//         alert(`Invalid template file.
-// --------------------------
-// ${e}`);
-//       });
-//   }
-// };
 
 export const getPlugins = () => {
   return {
