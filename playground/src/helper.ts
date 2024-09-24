@@ -1,7 +1,6 @@
 import {
   Template,
   Font,
-  checkTemplate,
   getInputFromTemplate,
   getDefaultFont,
   DEFAULT_FONT_NAME,
@@ -15,7 +14,7 @@ import {
   image,
   svg,
   line,
-  tableBeta,
+  table,
   rectangle,
   ellipse,
 } from '@pdfme/schemas';
@@ -54,7 +53,7 @@ export const getPlugins = () => {
   return {
     Text: text,
     'Multi-Variable Text': multiVariableText,
-    Table: tableBeta,
+    Table: table,
     Line: line,
     Rectangle: rectangle,
     Ellipse: ellipse,
@@ -113,7 +112,7 @@ export const isJsonString = (str: string) => {
 };
 
 const getBlankTemplate = () =>
-  ({ schemas: [{}], basePdf: { width: 210, height: 297, padding: [0, 0, 0, 0] } } as Template);
+  ({ schemas: [{}], basePdf: { width: 210, height: 297, padding: [10, 10, 10, 10] } } as Template);
 
 export const getTemplatePresets = (): {
   key: string;

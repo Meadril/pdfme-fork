@@ -4,7 +4,7 @@ import { Designer } from "@pdfme/ui";
 import {
   getFontsData,
   getTemplateByPreset,
-  getPlugins,
+  getPlugins, generatePDF,
 } from "./helper";
 
 const translations: { label: string, value: string }[] = [
@@ -89,6 +89,7 @@ function App() {
   return (
       <div>
         <button onClick={() => onSaveTemplate()} style={{margin: 10}}>Save Template</button>
+        <button onClick={() => generatePDF(designer.current)} style={{margin: 10}}>PDF</button>
         <div ref={designerRef} style={{width: '100%', height: `calc(100vh)`}}/>
       </div>
   );

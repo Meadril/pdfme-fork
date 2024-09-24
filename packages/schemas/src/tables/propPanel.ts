@@ -66,11 +66,11 @@ export const propPanel: PropPanel<TableSchema> = {
     width: 150,
     height: 20,
     content: JSON.stringify([
-      ['Alice', 'New York', 'Alice is a freelance web designer and developer'],
-      ['Bob', 'Paris', 'Bob is a freelance illustrator and graphic designer'],
+      ['KMG', '002131982', 'Display kaputt'],
+      ['CBSF', '00213134', 'Gehäuse gebrochen'],
     ]),
     showHead: true,
-    head: ['Name', 'City', 'Description'],
+    head: ['Produkt', 'Seriennummer', 'Fehler'],
     headWidthPercentages: [30, 30, 40],
     tableStyles: {
       borderColor: '#000000',

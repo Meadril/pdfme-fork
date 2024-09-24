@@ -66,6 +66,7 @@ const dictEn: { [key in keyof Dict]: string } = {
   'schemas.table.headStyle': 'Header Style',
   'schemas.table.bodyStyle': 'Body Style',
   'schemas.table.columnStyle': 'Column Style',
+  'schemas.numberOfSides': 'Number of Sides',
 };
 
 const dictZh: { [key in keyof Dict]: string } = {
@@ -132,6 +133,7 @@ const dictZh: { [key in keyof Dict]: string } = {
   'schemas.table.headStyle': '表头样式',
   'schemas.table.bodyStyle': '表体样式',
   'schemas.table.columnStyle': '列样式',
+  'schemas.numberOfSides': '边数',
 };
 
 const dictJa: { [key in keyof Dict]: string } = {
@@ -198,6 +200,7 @@ const dictJa: { [key in keyof Dict]: string } = {
   'schemas.table.headStyle': 'ヘッダースタイル',
   'schemas.table.bodyStyle': 'ボディスタイル',
   'schemas.table.columnStyle': 'カラムスタイル',
+  'schemas.numberOfSides': '辺の数',
 };
 
 const dictKo: { [key in keyof Dict]: string } = {
@@ -264,6 +267,7 @@ const dictKo: { [key in keyof Dict]: string } = {
   'schemas.table.headStyle': '헤더 스타일',
   'schemas.table.bodyStyle': '본문 스타일',
   'schemas.table.columnStyle': '열 스타일',
+  'schemas.numberOfSides': '변의 수',
 };
 
 const dictAr: { [key in keyof Dict]: string } = {
@@ -330,6 +334,7 @@ const dictAr: { [key in keyof Dict]: string } = {
   'schemas.table.headStyle': 'أسلوب الرأس',
   'schemas.table.bodyStyle': 'أسلوب الجسم',
   'schemas.table.columnStyle': 'أسلوب العمود',
+  'schemas.numberOfSides': 'عدد الأضلاع',
 };
 
 const dictTh: { [key in keyof Dict]: string } = {
@@ -396,6 +401,7 @@ const dictTh: { [key in keyof Dict]: string } = {
   'schemas.table.headStyle': 'สไตล์หัวข้อ',
   'schemas.table.bodyStyle': 'สไตล์เนื้อหา',
   'schemas.table.columnStyle': 'สไตล์คอลัมน์',
+  'schemas.numberOfSides': 'จำนวนด้าน',
 };
 
 const dictIt: { [key in keyof Dict]: string } = {
@@ -464,6 +470,7 @@ const dictIt: { [key in keyof Dict]: string } = {
   'schemas.table.headStyle': "Stile dell'Intestazione",
   'schemas.table.bodyStyle': 'Stile del Corpo',
   'schemas.table.columnStyle': 'Stile della Colonna',
+  'schemas.numberOfSides': 'Numero di Lati',
 };
 
 const dictPl: { [key in keyof Dict]: string } = {
@@ -530,6 +537,7 @@ const dictPl: { [key in keyof Dict]: string } = {
   'schemas.table.headStyle': 'Styl nagłówka',
   'schemas.table.bodyStyle': 'Styl ciała',
   'schemas.table.columnStyle': 'Styl kolumny',
+  'schemas.numberOfSides': 'Liczba boków',
 };
 
 const dictDe: { [key in keyof Dict]: string } = {
@@ -598,6 +606,7 @@ const dictDe: { [key in keyof Dict]: string } = {
   'schemas.table.headStyle': 'Kopfzeilenstil',
   'schemas.table.bodyStyle': 'Körperstil',
   'schemas.table.columnStyle': 'Spaltenstil',
+  'schemas.numberOfSides': 'Anzahl der Seiten',
 };
 
 const dictEs: { [key in keyof Dict]: string } = {
@@ -666,6 +675,7 @@ const dictEs: { [key in keyof Dict]: string } = {
   'schemas.table.headStyle': 'Estilo de cabecera',
   'schemas.table.bodyStyle': 'Estilo de cuerpo',
   'schemas.table.columnStyle': 'Estilo de columna',
+  'schemas.numberOfSides': 'Número de lados',
 };
 
 const dictFr: { [key in keyof Dict]: string } = {
@@ -731,7 +741,8 @@ const dictFr: { [key in keyof Dict]: string } = {
   'schemas.table.tableStyle': 'Style de tableau',
   'schemas.table.headStyle': "Style d'en-tête",
   'schemas.table.bodyStyle': 'Style de corps',
-  'schemas.table.columnStyle': 'Style de colonne'
+  'schemas.table.columnStyle': 'Style de colonne',
+  'schemas.numberOfSides': 'Nombre de côtés',
 };
 
 const dictionaries: { [key in Lang]: Dict } = {

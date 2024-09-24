@@ -1,12 +1,37 @@
-import type { UIRenderProps, Mode } from '@pdfme/common';
-import type { TableSchema, CellStyle, Styles } from './types.js';
+import type { Mode, UIRenderProps } from '@pdfme/common';
 import { px2mm } from '@pdfme/common';
+import type { CellStyle, Styles, TableSchema } from './types.js';
 import { createSingleTable } from './tableHelper.js';
 import { getBody, getBodyWithRange } from './helper.js';
 import cell from './cell.js';
 import { Row } from './classes';
 
 const buttonSize = 30;
+
+function createButton(options: {
+  width: number;
+  height: number;
+  top: string;
+  left?: string;
+  right?: string;
+  text: string;
+  onClick: (e: MouseEvent) => void;
+}): HTMLButtonElement {
+  const button = document.createElement('button');
+  button.style.width = `${options.width}px`;
+  button.style.height = `${options.height}px`;
+  button.style.position = 'absolute';
+  button.style.top = options.top;
+  if (options.left !== undefined) {
+    button.style.left = options.left;
+  }
+  if (options.right !== undefined) {
+    button.style.right = options.right;
+  }
+  button.innerText = options.text;
+  button.onclick = options.onClick;
+  return button;
+}
 
 type RowType = InstanceType<typeof Row>;
 
@@ -34,7 +59,7 @@ const calcResizedHeadWidthPercentages = (arg: {
   changedHeadIndex: number;
 }) => {
   const { currentHeadWidthPercentages, currentHeadWidths, changedHeadWidth, changedHeadIndex } =
-      arg;
+    arg;
   const headWidthPercentages = [...currentHeadWidthPercentages];
   const totalWidth = currentHeadWidths.reduce((a, b) => a + b, 0);
   const changedWidthPercentage = (changedHeadWidth / totalWidth) * 100;
@@ -48,22 +73,22 @@ const calcResizedHeadWidthPercentages = (arg: {
 };
 
 const setBorder = (
-    div: HTMLDivElement,
-    borderPosition: 'Top' | 'Left' | 'Right' | 'Bottom',
-    arg: UIRenderProps<TableSchema>
+  div: HTMLDivElement,
+  borderPosition: 'Top' | 'Left' | 'Right' | 'Bottom',
+  arg: UIRenderProps<TableSchema>
 ) => {
   div.style[`border${borderPosition}`] = `${String(arg.schema.tableStyles.borderWidth)}mm solid ${
-      arg.schema.tableStyles.borderColor
+    arg.schema.tableStyles.borderColor
   }`;
 };
 
 const drawBorder = (
-    div: HTMLDivElement,
-    row: RowType,
-    colIndex: number,
-    rowIndex: number,
-    rowsLength: number,
-    arg: UIRenderProps<TableSchema>
+  div: HTMLDivElement,
+  row: RowType,
+  colIndex: number,
+  rowIndex: number,
+  rowsLength: number,
+  arg: UIRenderProps<TableSchema>
 ) => {
   const isFirstColumn = colIndex === 0;
   const isLastColumn = colIndex === Object.values(row.cells).length - 1;
@@ -112,7 +137,7 @@ const renderRowUi = (args: {
       drawBorder(div, row, colIndex, rowIndex, rows.length, arg);
 
       div.style.cursor =
-          arg.mode === 'designer' || (arg.mode === 'form' && section === 'body') ? 'text' : 'default';
+        arg.mode === 'designer' || (arg.mode === 'form' && section === 'body') ? 'text' : 'default';
 
       div.addEventListener('click', () => {
         if (arg.mode === 'viewer') return;
@@ -120,7 +145,7 @@ const renderRowUi = (args: {
       });
       arg.rootElement.appendChild(div);
       const isEditing =
-          editingPosition.rowIndex === rowIndex && editingPosition.colIndex === colIndex;
+        editingPosition.rowIndex === rowIndex && editingPosition.colIndex === colIndex;
       let mode: Mode = 'viewer';
       if (arg.mode === 'form') {
         mode = section === 'body' && isEditing && !arg.schema.readOnly ? 'designer' : 'viewer';
@@ -177,7 +202,7 @@ const resetEditingPosition = () => {
 };
 
 export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
-  const { rootElement, onChange, schema, value } = arg;
+  const { rootElement, onChange, schema, value, mode } = arg;
   const body = getBody(value);
   const bodyWidthRange = getBodyWithRange(value, schema.__bodyRange);
   const table = await createSingleTable(bodyWidthRange, arg);
@@ -185,8 +210,8 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
   rootElement.innerHTML = '';
 
   const handleChangeEditingPosition = (
-      newPosition: { rowIndex: number; colIndex: number },
-      editingPosition: { rowIndex: number; colIndex: number }
+    newPosition: { rowIndex: number; colIndex: number },
+    editingPosition: { rowIndex: number; colIndex: number }
   ) => {
     resetEditingPosition();
     editingPosition.rowIndex = newPosition.rowIndex;
@@ -194,7 +219,7 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
     void uiRender(arg);
   };
 
-  if (schema.showHead) {
+  if (table.settings.showHead) {
     renderRowUi({
       rows: table.head,
       arg,
@@ -203,7 +228,7 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
     });
   }
 
-  const offsetY = schema.showHead ? table.getHeadHeight() : 0;
+  const offsetY = table.settings.showHead ? table.getHeadHeight() : 0;
   renderRowUi({
     rows: table.body,
     arg,
@@ -214,99 +239,112 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
     offsetY,
   });
 
-  if (onChange && !schema.readOnly) {
-    if (
-        schema.__bodyRange?.end === undefined ||
-        schema.__bodyRange.end >= (JSON.parse(value || '[]') as string[][]).length
-    ) {
-      const addRowButton = document.createElement('button');
-      addRowButton.style.width = `${buttonSize}px`;
-      addRowButton.style.height = `${buttonSize}px`;
-      addRowButton.style.position = 'absolute';
-      addRowButton.style.top = `${table.getHeight()}mm`;
-      addRowButton.style.left = `calc(50% - ${buttonSize / 2}px)`;
-      addRowButton.innerText = '+';
-      addRowButton.onclick = () => {
+  const createAddRowButton = () =>
+    createButton({
+      width: buttonSize,
+      height: buttonSize,
+      top: `${table.getHeight()}mm`,
+      left: `calc(50% - ${buttonSize / 2}px)`,
+      text: '+',
+      onClick: () => {
         const newRow = Array(schema.head.length).fill('') as string[];
-        console.log(arg)
-        onChange({ key: 'content', value: JSON.stringify(body.concat([newRow])) });
-      };
-      rootElement.appendChild(addRowButton);
-    }
-
-    let offsetY = schema.showHead ? table.getHeadHeight() : 0;
-    table.body.forEach((row, i) => {
-      offsetY = offsetY + row.height;
-      const removeRowButton = document.createElement('button');
-      removeRowButton.style.width = `${buttonSize}px`;
-      removeRowButton.style.height = `${buttonSize}px`;
-      removeRowButton.style.position = 'absolute';
-      removeRowButton.style.top = `${offsetY - px2mm(buttonSize)}mm`;
-      removeRowButton.style.right = `-${buttonSize}px`;
-      removeRowButton.innerText = '-';
-      removeRowButton.onclick = () => {
-        const newTableBody = body.filter((_, j) => j !== i + (schema.__bodyRange?.start ?? 0));
-        onChange({ key: 'content', value: JSON.stringify(newTableBody) });
-      };
-      rootElement.appendChild(removeRowButton);
+        onChange && onChange({ key: 'content', value: JSON.stringify(body.concat([newRow])) });
+      },
     });
 
-    const addColumnButton = document.createElement('button');
-    addColumnButton.style.width = `${buttonSize}px`;
-    addColumnButton.style.height = `${buttonSize}px`;
-    addColumnButton.style.position = 'absolute';
-    addColumnButton.style.top = `${table.getHeadHeight() - px2mm(buttonSize)}mm`;
-    addColumnButton.style.right = `-${buttonSize}px`;
-    addColumnButton.innerText = '+';
-    addColumnButton.onclick = (e) => {
-      e.preventDefault();
-      const newColumnWidthPercentage = 25;
-      const totalCurrentWidth = schema.headWidthPercentages.reduce((acc, width) => acc + width, 0);
-      const scalingRatio = (100 - newColumnWidthPercentage) / totalCurrentWidth;
-      const scaledWidths = schema.headWidthPercentages.map((width) => width * scalingRatio);
-      onChange([
-        { key: 'head', value: schema.head.concat(`Head ${schema.head.length + 1}`) },
-        { key: 'headWidthPercentages', value: scaledWidths.concat(newColumnWidthPercentage) },
-        {
-          key: 'content',
-          value: JSON.stringify(bodyWidthRange.map((row, i) => row.concat(`Row ${i + 1}`))),
+  const createRemoveRowButtons = () => {
+    let offsetY = table.settings.showHead ? table.getHeadHeight() : 0;
+    return table.body.map((row, i) => {
+      offsetY = offsetY + row.height;
+      return createButton({
+        width: buttonSize,
+        height: buttonSize,
+        top: `${offsetY - px2mm(buttonSize)}mm`,
+        right: `-${buttonSize}px`,
+        text: '-',
+        onClick: () => {
+          const newTableBody = body.filter((_, j) => j !== i + (schema.__bodyRange?.start ?? 0));
+          onChange && onChange({ key: 'content', value: JSON.stringify(newTableBody) });
         },
-      ]);
-    };
-    rootElement.appendChild(addColumnButton);
+      });
+    });
+  };
 
-    let offsetX = 0;
-    table.columns.forEach((column, i) => {
-      offsetX = offsetX + column.width;
-      const removeColumnButton = document.createElement('button');
-      removeColumnButton.style.width = `${buttonSize}px`;
-      removeColumnButton.style.height = `${buttonSize}px`;
-      removeColumnButton.style.position = 'absolute';
-      removeColumnButton.style.top = `-${buttonSize}px`;
-      removeColumnButton.style.left = `${offsetX - px2mm(buttonSize)}mm`;
-      removeColumnButton.innerText = '-';
-      removeColumnButton.onclick = (e) => {
+  if (mode === 'form' && onChange && !schema.readOnly) {
+    if (
+      schema.__bodyRange?.end === undefined ||
+      schema.__bodyRange.end >= (JSON.parse(value || '[]') as string[][]).length
+    ) {
+      rootElement.appendChild(createAddRowButton());
+    }
+
+    createRemoveRowButtons().forEach((button) => rootElement.appendChild(button));
+  }
+
+  if (mode === 'designer' && onChange) {
+    const addColumnButton = createButton({
+      width: buttonSize,
+      height: buttonSize,
+      top: `${table.getHeadHeight() - px2mm(buttonSize)}mm`,
+      right: `-${buttonSize}px`,
+      text: '+',
+      onClick: (e) => {
         e.preventDefault();
-        const totalWidthMinusRemoved = schema.headWidthPercentages.reduce(
-            (sum, width, j) => (j !== i ? sum + width : sum),
-            0
+        const newColumnWidthPercentage = 25;
+        const totalCurrentWidth = schema.headWidthPercentages.reduce(
+          (acc, width) => acc + width,
+          0
         );
-
-        // TODO Should also remove the deleted columnStyles when deleting
+        const scalingRatio = (100 - newColumnWidthPercentage) / totalCurrentWidth;
+        const scaledWidths = schema.headWidthPercentages.map((width) => width * scalingRatio);
         onChange([
-          { key: 'head', value: schema.head.filter((_, j) => j !== i) },
-          {
-            key: 'headWidthPercentages',
-            value: schema.headWidthPercentages
-                .filter((_, j) => j !== i)
-                .map((width) => (width / totalWidthMinusRemoved) * 100),
-          },
+          { key: 'head', value: schema.head.concat(`Head ${schema.head.length + 1}`) },
+          { key: 'headWidthPercentages', value: scaledWidths.concat(newColumnWidthPercentage) },
           {
             key: 'content',
-            value: JSON.stringify(bodyWidthRange.map((row) => row.filter((_, j) => j !== i))),
+            value: JSON.stringify(bodyWidthRange.map((row, i) => row.concat(`Row ${i + 1}`))),
           },
         ]);
-      };
+      },
+    });
+    rootElement.appendChild(addColumnButton);
+
+    rootElement.appendChild(createAddRowButton());
+
+    createRemoveRowButtons().forEach((button) => rootElement.appendChild(button));
+
+    let offsetX = 0;
+    table.columns.forEach((column, i, columns) => {
+      if (columns.length === 1) return;
+      offsetX = offsetX + column.width;
+      const removeColumnButton = createButton({
+        width: buttonSize,
+        height: buttonSize,
+        top: `${-buttonSize}px`,
+        left: `${offsetX - px2mm(buttonSize)}mm`,
+        text: '-',
+        onClick: () => {
+          const totalWidthMinusRemoved = schema.headWidthPercentages.reduce(
+            (sum, width, j) => (j !== i ? sum + width : sum),
+            0
+          );
+
+          // TODO Should also remove the deleted columnStyles when deleting
+          onChange([
+            { key: 'head', value: schema.head.filter((_, j) => j !== i) },
+            {
+              key: 'headWidthPercentages',
+              value: schema.headWidthPercentages
+                .filter((_, j) => j !== i)
+                .map((width) => (width / totalWidthMinusRemoved) * 100),
+            },
+            {
+              key: 'content',
+              value: JSON.stringify(bodyWidthRange.map((row) => row.filter((_, j) => j !== i))),
+            },
+          ]);
+        },
+      });
       rootElement.appendChild(removeColumnButton);
 
       if (i === table.columns.length - 1) return;
@@ -385,7 +423,7 @@ export const uiRender = async (arg: UIRenderProps<TableSchema>) => {
 
   resetEditingPosition();
 
-  const tableHeight = schema.showHead ? table.getHeight() : table.getBodyHeight();
+  const tableHeight = table.settings.showHead ? table.getHeight() : table.getBodyHeight();
   if (schema.height !== tableHeight && onChange) {
     onChange({ key: 'height', value: tableHeight });
   }
