@@ -160,7 +160,7 @@ describe('checkFont test', () => {
       fail();
     } catch (e: any) {
       expect(e.message).toEqual(
-          `[@pdfme/common] fallback flag is not found in font. true fallback flag must be only one.
+        `[@pdfme/common] fallback flag is not found in font. true fallback flag must be only one.
 Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`
       );
     }
@@ -177,7 +177,7 @@ Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`
       fail();
     } catch (e: any) {
       expect(e.message).toEqual(
-          `[@pdfme/common] 2 fallback flags found in font. true fallback flag must be only one.
+        `[@pdfme/common] 2 fallback flags found in font. true fallback flag must be only one.
 Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`
       );
     }
@@ -212,7 +212,7 @@ Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`
       fail();
     } catch (e: any) {
       expect(e.message).toEqual(
-          `[@pdfme/common] SauceHanSansJP2 of template.schemas is not found in font.
+        `[@pdfme/common] SauceHanSansJP2 of template.schemas is not found in font.
 Check this document: https://pdfme.com/docs/custom-fonts`
       );
     }
@@ -248,7 +248,7 @@ Check this document: https://pdfme.com/docs/custom-fonts`
       fail();
     } catch (e: any) {
       expect(e.message).toEqual(
-          `[@pdfme/common] SauceHanSansJP2,SauceHanSerifJP2 of template.schemas is not found in font.
+        `[@pdfme/common] SauceHanSansJP2,SauceHanSerifJP2 of template.schemas is not found in font.
 Check this document: https://pdfme.com/docs/custom-fonts`
       );
     }
@@ -337,7 +337,7 @@ describe('checkPlugins test', () => {
       fail();
     } catch (e: any) {
       expect(e.message).toEqual(
-          `[@pdfme/common] fail of template.schemas is not found in plugins.`
+        `[@pdfme/common] fail of template.schemas is not found in plugins.`
       );
     }
   });
@@ -350,7 +350,7 @@ describe('checkPlugins test', () => {
       fail();
     } catch (e: any) {
       expect(e.message).toEqual(
-          `[@pdfme/common] fail,fail2 of template.schemas is not found in plugins.`
+        `[@pdfme/common] fail,fail2 of template.schemas is not found in plugins.`
       );
     }
   });
@@ -417,7 +417,7 @@ describe('getDynamicTemplate', () => {
       expect(dynamicTemplate.schemas.length).toBe(1);
       expect(dynamicTemplate.schemas[0].a.position.y).toEqual(aPositionY);
       expect(dynamicTemplate.schemas[0].b.position.y).toEqual(
-          increaseHeights.reduce((a, b) => a + b, 0) - height + bPositionY
+        increaseHeights.reduce((a, b) => a + b, 0) - height + bPositionY
       );
     });
   });
@@ -444,7 +444,7 @@ describe('getDynamicTemplate', () => {
       expect(dynamicTemplate.schemas[0].b).toBeUndefined();
       expect(dynamicTemplate.schemas[1].a.position.y).toEqual(padding);
       expect(dynamicTemplate.schemas[1].b.position.y).toEqual(
-          increaseHeights.slice(3).reduce((a, b) => a + b, 0) - height + padding
+        increaseHeights.slice(3).reduce((a, b) => a + b, 0) - height + padding
       );
     });
 
@@ -489,7 +489,7 @@ describe('getDynamicTemplate', () => {
 
       expect(dynamicTemplate.schemas[1].b).toBeDefined();
       expect(dynamicTemplate.schemas[1].b.position.y).toBeGreaterThanOrEqual(
-          dynamicTemplate.schemas[1].a.position.y + dynamicTemplate.schemas[1].a.height
+        dynamicTemplate.schemas[1].a.position.y + dynamicTemplate.schemas[1].a.height
       );
     });
   });

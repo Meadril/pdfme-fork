@@ -32,7 +32,7 @@ export const getFallbackFontName = (font: Font) => {
   }, initial);
   if (fallbackFontName === initial) {
     throw Error(
-        `[@pdfme/common] fallback flag is not found in font. true fallback flag must be only one.`
+      `[@pdfme/common] fallback flag is not found in font. true fallback flag must be only one.`
     );
   }
 
@@ -94,21 +94,21 @@ export const getInputFromTemplate = (template: Template): { [key: string]: strin
 
 export const getB64BasePdf = (basePdf: BasePdf) => {
   const needFetchFromNetwork =
-      typeof basePdf === 'string' && !basePdf.startsWith('data:application/pdf;');
+    typeof basePdf === 'string' && !basePdf.startsWith('data:application/pdf;');
   if (needFetchFromNetwork && typeof window !== 'undefined') {
     return fetch(basePdf)
-        .then((res) => res.blob())
-        .then(blob2Base64Pdf)
-        .catch((e: Error) => {
-          throw e;
-        });
+      .then((res) => res.blob())
+      .then(blob2Base64Pdf)
+      .catch((e: Error) => {
+        throw e;
+      });
   }
 
   return basePdf as string;
 };
 
 export const isBlankPdf = (basePdf: BasePdf): basePdf is BlankPdf =>
-    BlankPdfSchema.safeParse(basePdf).success;
+  BlankPdfSchema.safeParse(basePdf).success;
 
 const getByteString = (base64: string) => Buffer.from(base64, 'base64').toString('binary');
 
@@ -125,12 +125,12 @@ export const b64toUint8Array = (base64: string) => {
 };
 
 const getFontNamesInSchemas = (schemas: { [key: string]: Schema }[]) =>
-    uniq(
-        schemas
-            .map((s) => Object.values(s).map((v) => (v as any).fontName ?? ''))
-            .reduce((acc, cur) => acc.concat(cur), [] as (string | undefined)[])
-            .filter(Boolean) as string[]
-    );
+  uniq(
+    schemas
+      .map((s) => Object.values(s).map((v) => (v as any).fontName ?? ''))
+      .reduce((acc, cur) => acc.concat(cur), [] as (string | undefined)[])
+      .filter(Boolean) as string[]
+  );
 
 export const checkFont = (arg: { font: Font; template: Template }) => {
   const {
@@ -141,13 +141,13 @@ export const checkFont = (arg: { font: Font; template: Template }) => {
   const fallbackFontNum = fontValues.reduce((acc, cur) => (cur.fallback ? acc + 1 : acc), 0);
   if (fallbackFontNum === 0) {
     throw Error(
-        `[@pdfme/common] fallback flag is not found in font. true fallback flag must be only one.
+      `[@pdfme/common] fallback flag is not found in font. true fallback flag must be only one.
 Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`
     );
   }
   if (fallbackFontNum > 1) {
     throw Error(
-        `[@pdfme/common] ${fallbackFontNum} fallback flags found in font. true fallback flag must be only one.
+      `[@pdfme/common] ${fallbackFontNum} fallback flags found in font. true fallback flag must be only one.
 Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`
     );
   }
@@ -156,9 +156,9 @@ Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`
   const fontNames = Object.keys(font);
   if (fontNamesInSchemas.some((f) => !fontNames.includes(f))) {
     throw Error(
-        `[@pdfme/common] ${fontNamesInSchemas
-            .filter((f) => !fontNames.includes(f))
-            .join()} of template.schemas is not found in font.
+      `[@pdfme/common] ${fontNamesInSchemas
+        .filter((f) => !fontNames.includes(f))
+        .join()} of template.schemas is not found in font.
 Check this document: https://pdfme.com/docs/custom-fonts`
     );
   }
@@ -175,9 +175,9 @@ export const checkPlugins = (arg: { plugins: Plugins; template: Template }) => {
 
   if (allSchemaTypes.some((s) => !pluginsSchemaTypes.includes(s))) {
     throw Error(
-        `[@pdfme/common] ${allSchemaTypes
-            .filter((s) => !pluginsSchemaTypes.includes(s))
-            .join()} of template.schemas is not found in plugins.`
+      `[@pdfme/common] ${allSchemaTypes
+        .filter((s) => !pluginsSchemaTypes.includes(s))
+        .join()} of template.schemas is not found in plugins.`
     );
   }
 };
@@ -188,7 +188,7 @@ const checkProps = <T>(data: unknown, zodSchema: z.ZodType<T>) => {
   } catch (e) {
     if (e instanceof z.ZodError) {
       const messages = e.issues.map(
-          (issue) => `ERROR POSITION: ${issue.path.join('.')}
+        (issue) => `ERROR POSITION: ${issue.path.join('.')}
 ERROR MESSAGE: ${issue.message}
 --------------------------`
       );
@@ -231,8 +231,8 @@ interface ModifyTemplateForDynamicTableArg {
   _cache: Map<any, any>;
   options: CommonOptions;
   getDynamicHeights: (
-      value: string,
-      args: { schema: Schema; basePdf: BasePdf; options: CommonOptions; _cache: Map<any, any> }
+    value: string,
+    args: { schema: Schema; basePdf: BasePdf; options: CommonOptions; _cache: Map<any, any> }
   ) => Promise<number[]>;
 }
 
@@ -316,40 +316,40 @@ function createNode(arg: {
 
 function resortChildren(page: Node, orderMap: Map<string, number>): void {
   page.children = page.children
-      .sort((a, b) => {
-        const orderA = orderMap.get(a.key!);
-        const orderB = orderMap.get(b.key!);
-        if (orderA === undefined || orderB === undefined) {
-          throw new Error('[@pdfme/common] order is not defined');
-        }
-        return orderA - orderB;
-      })
-      .map((child, index) => {
-        child.setIndex(index);
-        return child;
-      });
+    .sort((a, b) => {
+      const orderA = orderMap.get(a.key!);
+      const orderB = orderMap.get(b.key!);
+      if (orderA === undefined || orderB === undefined) {
+        throw new Error('[@pdfme/common] order is not defined');
+      }
+      return orderA - orderB;
+    })
+    .map((child, index) => {
+      child.setIndex(index);
+      return child;
+    });
 }
 
 async function createOnePage(
-    arg: {
-      basePdf: BlankPdf;
-      schemaObj: Record<string, Schema>;
-      orderMap: Map<string, number>;
-    } & Omit<ModifyTemplateForDynamicTableArg, 'template'>
+  arg: {
+    basePdf: BlankPdf;
+    schemaObj: Record<string, Schema>;
+    orderMap: Map<string, number>;
+  } & Omit<ModifyTemplateForDynamicTableArg, 'template'>
 ): Promise<Node> {
   const { basePdf, schemaObj, orderMap, input, options, _cache, getDynamicHeights } = arg;
   const page = createPage(basePdf);
 
   const schemaPositions: number[] = [];
   const sortedSchemaEntries = Object.entries(schemaObj).sort(
-      (a, b) => a[1].position.y - b[1].position.y
+    (a, b) => a[1].position.y - b[1].position.y
   );
   const diffMap = new Map();
   for (const [key, schema] of sortedSchemaEntries) {
     const { position, width } = schema;
 
     const opt = { schema, basePdf, options, _cache };
-    const value = (schema.readOnly ? schema.content : input[key]) || '';
+    const value = (schema.readOnly ? schema.content : input?.[key]) || '';
     const heights = await getDynamicHeights(value, opt);
 
     const heightsSum = heights.reduce((acc, cur) => acc + cur, 0);
@@ -390,7 +390,7 @@ function breakIntoPages(arg: {
   const yAdjustments: { page: number; value: number }[] = [];
 
   const getPageHeight = (pageIndex: number) =>
-      basePdf.height - paddingBottom - (pageIndex > 0 ? paddingTop : 0);
+    basePdf.height - paddingBottom - (pageIndex > 0 ? paddingTop : 0);
 
   const calculateNewY = (y: number, pageIndex: number) => {
     const newY = y - pageIndex * (basePdf.height - paddingTop - paddingBottom);
@@ -466,6 +466,9 @@ function createNewTemplate(pages: Node[], basePdf: BlankPdf): Template {
           end: start + sameKeySchemas.length - 1,
         };
 
+        // Currently, this is used to determine whether to display the header when a table is split.
+        schema.__isSplit = start > 0;
+
         newTemplate.schemas[pageIndex][key] = Object.assign({}, schema, { position, height });
       }
     });
@@ -475,7 +478,7 @@ function createNewTemplate(pages: Node[], basePdf: BlankPdf): Template {
 }
 
 export const getDynamicTemplate = async (
-    arg: ModifyTemplateForDynamicTableArg
+  arg: ModifyTemplateForDynamicTableArg
 ): Promise<Template> => {
   const { template } = arg;
   if (!isBlankPdf(template.basePdf)) {

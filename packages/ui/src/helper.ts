@@ -22,11 +22,11 @@ import {
 import { RULER_HEIGHT } from './constants.js';
 
 export const uuid = () =>
-    'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      const r = (Math.random() * 16) | 0;
-      const v = c == 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
+  'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c == 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 
 export const set = <T extends object>(obj: T, path: string | string[], value: any) => {
   path = Array.isArray(path) ? path : path.replace('[', '.').replace(']', '').split('.');
@@ -200,15 +200,15 @@ export const getPdfPageSizes = async (pdfBlob: Blob) => {
   const pdfDoc = await getDocument({ url }).promise;
 
   const promises = Promise.all(
-      new Array(pdfDoc.numPages).fill('').map(async (_, i) => {
-        const pageSize = await pdfDoc.getPage(i + 1).then((page) => {
-          const { height, width } = page.getViewport({ scale: 1 });
+    new Array(pdfDoc.numPages).fill('').map(async (_, i) => {
+      const pageSize = await pdfDoc.getPage(i + 1).then((page) => {
+        const { height, width } = page.getViewport({ scale: 1 });
 
-          return { height: pt2mm(height), width: pt2mm(width) };
-        });
+        return { height: pt2mm(height), width: pt2mm(width) };
+      });
 
-        return pageSize;
-      })
+      return pageSize;
+    })
   );
 
   URL.revokeObjectURL(url);
@@ -221,22 +221,22 @@ const pdf2Images = async (pdfBlob: Blob, width: number, imageType: 'png' | 'jpeg
   const pdfDoc = await getDocument({ url }).promise;
 
   const promises = Promise.all(
-      new Array(pdfDoc.numPages).fill('').map(async (_, i) => {
-        const image = await pdfDoc.getPage(i + 1).then((page) => {
-          const canvas = document.createElement('canvas');
-          canvas.width = width * 2;
-          const canvasContext = canvas.getContext('2d')!;
-          const scaleRequired = canvas.width / page.getViewport({ scale: 1 }).width;
-          const viewport = page.getViewport({ scale: scaleRequired });
-          canvas.height = viewport.height;
+    new Array(pdfDoc.numPages).fill('').map(async (_, i) => {
+      const image = await pdfDoc.getPage(i + 1).then((page) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = width * 2;
+        const canvasContext = canvas.getContext('2d')!;
+        const scaleRequired = canvas.width / page.getViewport({ scale: 1 }).width;
+        const viewport = page.getViewport({ scale: scaleRequired });
+        canvas.height = viewport.height;
 
-          return page
-              .render({ canvasContext, viewport })
-              .promise.then(() => canvas.toDataURL(`image/${imageType}`));
-        });
+        return page
+          .render({ canvasContext, viewport })
+          .promise.then(() => canvas.toDataURL(`image/${imageType}`));
+      });
 
-        return image;
-      })
+      return image;
+    })
   );
   URL.revokeObjectURL(url);
 
@@ -258,11 +258,11 @@ const sortSchemasList = (template: Template): SchemaForUI[][] => {
   const arr = new Array(pageNum).fill('') as SchemaForUI[][];
   return arr.reduce((acc, _, i) => {
     acc.push(
-        schemas[i]
-            ? Object.entries(schemas[i]).map(([key, schema]) =>
-                Object.assign(schema, { key, content: schema.content, id: uuid() })
-            )
-            : []
+      schemas[i]
+        ? Object.entries(schemas[i]).map(([key, schema]) =>
+            Object.assign(schema, { key, content: schema.content, id: uuid() })
+          )
+        : []
     );
     return acc;
   }, [] as SchemaForUI[][]);
@@ -287,9 +287,9 @@ export const template2SchemasList = async (_template: Template) => {
   const ssl = sortedSchemasList.length;
   const psl = pageSizes.length;
   const schemasList = (
-      ssl < psl
-          ? sortedSchemasList.concat(new Array(psl - ssl).fill(cloneDeep([])))
-          : sortedSchemasList.slice(0, pageSizes.length)
+    ssl < psl
+      ? sortedSchemasList.concat(new Array(psl - ssl).fill(cloneDeep([])))
+      : sortedSchemasList.slice(0, pageSizes.length)
   ).map((schema, i) => {
     Object.values(schema).forEach((value) => {
       const { width, height } = pageSizes[i];
@@ -312,16 +312,16 @@ export const template2SchemasList = async (_template: Template) => {
 
 export const schemasList2template = (schemasList: SchemaForUI[][], basePdf: BasePdf): Template => ({
   schemas: cloneDeep(schemasList).map((schema) =>
-      schema.reduce((acc, cur) => {
-        const k = cur.key;
-        // @ts-ignore
-        delete cur.id;
-        // @ts-ignore
-        delete cur.key;
-        acc[k] = cur;
+    schema.reduce((acc, cur) => {
+      const k = cur.key;
+      // @ts-ignore
+      delete cur.id;
+      // @ts-ignore
+      delete cur.key;
+      acc[k] = cur;
 
-        return acc;
-      }, {} as { [key: string]: Schema })
+      return acc;
+    }, {} as { [key: string]: Schema })
   ),
   basePdf,
 });
@@ -334,20 +334,20 @@ export const getUniqSchemaKey = (arg: {
   const { copiedSchemaKey, schema, stackUniqSchemaKeys } = arg;
   const schemaKeys = schema.map((s) => s.key).concat(stackUniqSchemaKeys);
   const tmp: { [originalKey: string]: number } = schemaKeys.reduce(
-      (acc, cur) => Object.assign(acc, { originalKey: cur, copiedNum: 0 }),
-      {}
+    (acc, cur) => Object.assign(acc, { originalKey: cur, copiedNum: 0 }),
+    {}
   );
   const extractOriginalKey = (key: string) => key.replace(/ copy$| copy [0-9]*$/, '');
   schemaKeys
-      .filter((key) => / copy$| copy [0-9]*$/.test(key))
-      .forEach((key) => {
-        const originalKey = extractOriginalKey(key);
-        const match = key.match(/[0-9]*$/);
-        const copiedNum = match && match[0] ? Number(match[0]) : 1;
-        if ((tmp[originalKey] ?? 0) < copiedNum) {
-          tmp[originalKey] = copiedNum;
-        }
-      });
+    .filter((key) => / copy$| copy [0-9]*$/.test(key))
+    .forEach((key) => {
+      const originalKey = extractOriginalKey(key);
+      const match = key.match(/[0-9]*$/);
+      const copiedNum = match && match[0] ? Number(match[0]) : 1;
+      if ((tmp[originalKey] ?? 0) < copiedNum) {
+        tmp[originalKey] = copiedNum;
+      }
+    });
 
   const originalKey = extractOriginalKey(copiedSchemaKey);
   if (tmp[originalKey]) {
@@ -411,19 +411,19 @@ export const moveCommandToChangeSchemasArg = (props: {
 
 export const getPagesScrollTopByIndex = (pageSizes: Size[], index: number, scale: number) => {
   return pageSizes
-      .slice(0, index)
-      .reduce((acc, cur) => acc + (cur.height * ZOOM + RULER_HEIGHT * scale) * scale, 0);
+    .slice(0, index)
+    .reduce((acc, cur) => acc + (cur.height * ZOOM + RULER_HEIGHT * scale) * scale, 0);
 };
 
 export const getSidebarContentHeight = (sidebarHeight: number) =>
-    sidebarHeight - RULER_HEIGHT - RULER_HEIGHT / 2 - 30;
+  sidebarHeight - RULER_HEIGHT - RULER_HEIGHT / 2 - 30;
 
 const handlePositionSizeChange = (
-    schema: SchemaForUI,
-    key: string,
-    value: any,
-    basePdf: BasePdf,
-    pageSize: Size
+  schema: SchemaForUI,
+  key: string,
+  value: any,
+  basePdf: BasePdf,
+  pageSize: Size
 ) => {
   const padding = isBlankPdf(basePdf) ? basePdf.padding : [0, 0, 0, 0];
   const [pt, pr, pb, pl] = padding;
@@ -441,10 +441,10 @@ const handlePositionSizeChange = (
 };
 
 const handleTypeChange = (
-    schema: SchemaForUI,
-    key: string,
-    value: any,
-    pluginsRegistry: Plugins
+  schema: SchemaForUI,
+  key: string,
+  value: any,
+  pluginsRegistry: Plugins
 ) => {
   if (key !== 'type') return;
   const keysToKeep = ['id', 'key', 'type', 'position', 'required'];
@@ -455,7 +455,7 @@ const handleTypeChange = (
   });
   // Apply attributes from new defaultSchema
   const propPanel = Object.values(pluginsRegistry).find(
-      (plugin) => plugin?.propPanel.defaultSchema.type === value
+    (plugin) => plugin?.propPanel.defaultSchema.type === value
   )?.propPanel;
   Object.keys(propPanel?.defaultSchema || {}).forEach((key) => {
     if (!schema.hasOwnProperty(key)) {
