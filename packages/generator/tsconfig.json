@@ -8,7 +8,10 @@
       ],
       "@pdfme/schemas": [
         "packages/schemas/dist/esm/src"
-      ]
+      ],
+      "@pdfme/schemas/utils": [
+        "packages/schemas/dist/esm/src/utils"
+      ],
     }
   },
 }

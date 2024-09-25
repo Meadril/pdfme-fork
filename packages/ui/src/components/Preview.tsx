@@ -1,7 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import { Template, SchemaForUI, PreviewProps, Size, getDynamicTemplate } from '@pdfme/common';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { getDynamicHeightsForTable } from '@pdfme/schemas/utils';
 import UnitPager from './UnitPager';
 import Root from './Root';
