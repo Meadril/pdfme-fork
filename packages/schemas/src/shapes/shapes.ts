@@ -24,6 +24,8 @@ const shapeSchema: Plugin<ShapeSchema> = {
       position: { x, y },
       opacity,
     } = convertForPdfLayoutProps({ schema, pageHeight, applyRotateTranslate: false });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const borderWidth = schema.borderWidth ? mm2pt(schema.borderWidth) : 0;
 
     const pivot = { x: x + width / 2, y: y + height / 2 };
@@ -265,6 +267,7 @@ const shapeSchema: Plugin<ShapeSchema> = {
       },
     }),
     defaultSchema: {
+      name: 'Shape',
       type: 'shape',
       shapeType: 'line',
       position: { x: 0, y: 0 },

@@ -28,7 +28,11 @@ const UnitButton: React.FC<UnitButtonProps> = ({ type, onClick, disabled, textSt
 
   return (
     <Button type="text" onClick={onClick} disabled={disabled}>
-      <Icon style={{ color: textStyle.color }} />
+      <Icon
+        style={{ color: textStyle.color }}
+        onPointerEnterCapture={undefined}
+        onPointerLeaveCapture={undefined}
+      />
     </Button>
   );
 };
@@ -64,59 +68,59 @@ const UnitPager = ({ size, unitCursor, unitNum, setUnitCursor }: Props) => {
   };
 
   return (
-    <div style={{ position: 'absolute', ...size }}>
-      <div
-        style={{
-          position: 'sticky',
-          width: '100%',
-          zIndex: 1,
-          top: `calc(50% - ${(buttonWrapStyle.height as number) / 2}px)`,
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        {unitCursor > 0 && (
-          <div style={{ left: '1rem', marginLeft: '1rem', ...buttonWrapStyle }}>
-            <UnitButton
-              type="doubleLeft"
-              onClick={() => setUnitCursor(0)}
-              disabled={unitCursor <= 0}
-              textStyle={textStyle}
-            />
-            <UnitButton
-              type="left"
-              onClick={() => setUnitCursor(unitCursor - 1)}
-              disabled={unitCursor <= 0}
-              textStyle={textStyle}
-            />
-            <Text strong style={textStyle}>
-              {unitCursor + 1}/{unitNum}
-            </Text>
-          </div>
-        )}
-        {unitCursor + 1 < unitNum && (
-          <div
-            style={{ right: '1rem', marginLeft: 'auto', marginRight: '1rem', ...buttonWrapStyle }}
-          >
-            <Text strong style={textStyle}>
-              {unitCursor + 1}/{unitNum}
-            </Text>
-            <UnitButton
-              type="right"
-              onClick={() => setUnitCursor(unitCursor + 1)}
-              disabled={unitCursor + 1 >= unitNum}
-              textStyle={textStyle}
-            />
-            <UnitButton
-              type="doubleRight"
-              onClick={() => setUnitCursor(unitNum - 1)}
-              disabled={unitCursor + 1 >= unitNum}
-              textStyle={textStyle}
-            />
-          </div>
-        )}
+      <div style={{ position: 'absolute', ...size }}>
+        <div
+            style={{
+              position: 'sticky',
+              width: '100%',
+              zIndex: 1,
+              top: `calc(50% - ${(buttonWrapStyle.height as number) / 2}px)`,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+        >
+          {unitCursor > 0 && (
+              <div style={{ left: '1rem', marginLeft: '1rem', ...buttonWrapStyle }}>
+                <UnitButton
+                    type="doubleLeft"
+                    onClick={() => setUnitCursor(0)}
+                    disabled={unitCursor <= 0}
+                    textStyle={textStyle}
+                />
+                <UnitButton
+                    type="left"
+                    onClick={() => setUnitCursor(unitCursor - 1)}
+                    disabled={unitCursor <= 0}
+                    textStyle={textStyle}
+                />
+                <Text strong style={textStyle}>
+                  {unitCursor + 1}/{unitNum}
+                </Text>
+              </div>
+          )}
+          {unitCursor + 1 < unitNum && (
+              <div
+                  style={{ right: '1rem', marginLeft: 'auto', marginRight: '1rem', ...buttonWrapStyle }}
+              >
+                <Text strong style={textStyle}>
+                  {unitCursor + 1}/{unitNum}
+                </Text>
+                <UnitButton
+                    type="right"
+                    onClick={() => setUnitCursor(unitCursor + 1)}
+                    disabled={unitCursor + 1 >= unitNum}
+                    textStyle={textStyle}
+                />
+                <UnitButton
+                    type="doubleRight"
+                    onClick={() => setUnitCursor(unitNum - 1)}
+                    disabled={unitCursor + 1 >= unitNum}
+                    textStyle={textStyle}
+                />
+              </div>
+          )}
+        </div>
       </div>
-    </div>
   );
 };
 

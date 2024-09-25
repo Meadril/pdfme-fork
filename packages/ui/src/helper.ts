@@ -1,7 +1,9 @@
 // Update pdfjs-dist. (might be able to reduce the bundle size.)
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import PDFJSWorker from 'pdfjs-dist/legacy/build/pdf.worker.entry.js';
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/legacy/build/pdf.js';
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 GlobalWorkerOptions.workerSrc = PDFJSWorker;
 
 import hotkeys from 'hotkeys-js';
@@ -311,56 +313,52 @@ export const template2SchemasList = async (_template: Template) => {
 };
 
 export const schemasList2template = (schemasList: SchemaForUI[][], basePdf: BasePdf): Template => ({
-  schemas: cloneDeep(schemasList).map((schema) =>
-    schema.reduce((acc, cur) => {
-      const k = cur.key;
-      // @ts-ignore
-      delete cur.id;
-      // @ts-ignore
-      delete cur.key;
-      acc[k] = cur;
-
-      return acc;
-    }, {} as { [key: string]: Schema })
+  schemas: cloneDeep(schemasList).map((page) =>
+      page.map(schema => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        delete schema.id;
+        return schema;
+      })
   ),
   basePdf,
 });
 
-export const getUniqSchemaKey = (arg: {
-  copiedSchemaKey: string;
+export const getUniqueSchemaName = (arg: {
+  copiedSchemaName: string;
   schema: SchemaForUI[];
-  stackUniqSchemaKeys: string[];
+  stackUniqueSchemaNames: string[];
 }) => {
-  const { copiedSchemaKey, schema, stackUniqSchemaKeys } = arg;
-  const schemaKeys = schema.map((s) => s.key).concat(stackUniqSchemaKeys);
-  const tmp: { [originalKey: string]: number } = schemaKeys.reduce(
-    (acc, cur) => Object.assign(acc, { originalKey: cur, copiedNum: 0 }),
-    {}
+  const { copiedSchemaName, schema, stackUniqueSchemaNames } = arg;
+  const schemaNames = schema.map((s) => s.name).concat(stackUniqueSchemaNames);
+  const tmp: { [originalName: string]: number } = schemaNames.reduce(
+      (acc, cur) => Object.assign(acc, { originalName: cur, copiedNum: 0 }),
+      {}
   );
-  const extractOriginalKey = (key: string) => key.replace(/ copy$| copy [0-9]*$/, '');
-  schemaKeys
-    .filter((key) => / copy$| copy [0-9]*$/.test(key))
-    .forEach((key) => {
-      const originalKey = extractOriginalKey(key);
-      const match = key.match(/[0-9]*$/);
-      const copiedNum = match && match[0] ? Number(match[0]) : 1;
-      if ((tmp[originalKey] ?? 0) < copiedNum) {
-        tmp[originalKey] = copiedNum;
-      }
-    });
+  const extractOriginalName = (name: string) => name.replace(/ copy$| copy [0-9]*$/, '');
+  schemaNames
+      .filter((name) => / copy$| copy [0-9]*$/.test(name))
+      .forEach((name) => {
+        const originalName = extractOriginalName(name);
+        const match = name.match(/[0-9]*$/);
+        const copiedNum = match && match[0] ? Number(match[0]) : 1;
+        if ((tmp[originalName] ?? 0) < copiedNum) {
+          tmp[originalName] = copiedNum;
+        }
+      });
 
-  const originalKey = extractOriginalKey(copiedSchemaKey);
-  if (tmp[originalKey]) {
-    const copiedNum = tmp[originalKey];
-    const uniqKey = `${originalKey} copy ${copiedNum + 1}`;
-    stackUniqSchemaKeys.push(uniqKey);
+  const originalName = extractOriginalName(copiedSchemaName);
+  if (tmp[originalName]) {
+    const copiedNum = tmp[originalName];
+    const uniqueName = `${originalName} copy ${copiedNum + 1}`;
+    stackUniqueSchemaNames.push(uniqueName);
 
-    return uniqKey;
+    return uniqueName;
   }
-  const uniqKey = `${copiedSchemaKey} copy`;
-  stackUniqSchemaKeys.push(uniqKey);
+  const uniqueName = `${copiedSchemaName} copy`;
+  stackUniqueSchemaNames.push(uniqueName);
 
-  return uniqKey;
+  return uniqueName;
 };
 
 export const moveCommandToChangeSchemasArg = (props: {
@@ -441,13 +439,13 @@ const handlePositionSizeChange = (
 };
 
 const handleTypeChange = (
-  schema: SchemaForUI,
-  key: string,
-  value: any,
-  pluginsRegistry: Plugins
+    schema: SchemaForUI,
+    key: string,
+    value: any,
+    pluginsRegistry: Plugins
 ) => {
   if (key !== 'type') return;
-  const keysToKeep = ['id', 'key', 'type', 'position', 'required'];
+  const keysToKeep = ['id', 'name', 'type', 'position', 'required'];
   Object.keys(schema).forEach((key) => {
     if (!keysToKeep.includes(key)) {
       delete schema[key as keyof typeof schema];
@@ -455,7 +453,7 @@ const handleTypeChange = (
   });
   // Apply attributes from new defaultSchema
   const propPanel = Object.values(pluginsRegistry).find(
-    (plugin) => plugin?.propPanel.defaultSchema.type === value
+      (plugin) => plugin?.propPanel.defaultSchema.type === value
   )?.propPanel;
   Object.keys(propPanel?.defaultSchema || {}).forEach((key) => {
     if (!schema.hasOwnProperty(key)) {

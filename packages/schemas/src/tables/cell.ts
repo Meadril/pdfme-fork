@@ -20,11 +20,12 @@ const renderLine = async (
   position: { x: number; y: number },
   width: number,
   height: number
-) =>
-  linePdfRender({
+) => {
+  return linePdfRender({
     ...arg,
-    schema: { ...schema, type: 'line', position, width, height, color: schema.borderColor },
+    schema: { ...schema, type: 'line', position, width, height, color: schema.borderColor, shapeType: 'line' },
   });
+};
 
 const createTextDiv = (schema: CellSchema) => {
   const { borderWidth: bw, width, height, padding: pd } = schema;
