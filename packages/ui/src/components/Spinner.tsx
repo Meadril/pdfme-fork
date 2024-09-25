@@ -11,14 +11,7 @@ const Spinner = () => (
       alignItems: 'center',
       justifyContent: 'center',
     }}
-    indicator={
-      <LoadingOutlined
-        style={{ fontSize: 50 }}
-        spin
-        onPointerEnterCapture={undefined}
-        onPointerLeaveCapture={undefined}
-      />
-    }
+    indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />}
   />
 );
 
