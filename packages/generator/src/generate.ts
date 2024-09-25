@@ -1,7 +1,7 @@
 import * as pdfLib from '@pdfme/pdf-lib';
 import type { GenerateProps } from '@pdfme/common';
 import { checkGenerateProps, getDynamicTemplate } from '@pdfme/common';
-import { getDynamicHeightsForTable } from '@pdfme/schemas';
+import { getDynamicHeightsForTable } from '@pdfme/schemas/utils';
 import {
   insertPage,
   preprocessing,

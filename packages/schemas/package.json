@@ -29,11 +29,6 @@
       "import": "./dist/esm/src/index.js",
       "require": "./dist/cjs/src/index.js",
       "types": "./dist/types/src/index.d.ts"
-    },
-    "./utils": {
-      "import": "./dist/esm/src/utils/index.js",
-      "require": "./dist/cjs/src/utils/index.js",
-      "types": "./dist/types/src/utils/index.d.ts"
     }
   },
   "scripts": {

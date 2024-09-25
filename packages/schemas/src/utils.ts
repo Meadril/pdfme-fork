@@ -4,10 +4,10 @@ import { Schema, mm2pt, Mode, isHexValid, ColorType } from '@pdfme/common';
 import { getDynamicHeightsForTable as _getDynamicHeightsForTable } from './tables/dynamicTemplate.js';
 
 export const convertForPdfLayoutProps = ({
-                                           schema,
-                                           pageHeight,
-                                           applyRotateTranslate = true,
-                                         }: {
+  schema,
+  pageHeight,
+  applyRotateTranslate = true,
+}: {
   schema: Schema;
   pageHeight: number;
   applyRotateTranslate?: boolean;
@@ -43,25 +43,26 @@ export const convertForPdfLayoutProps = ({
 };
 
 export const rotatePoint = (
-    point: { x: number; y: number },
-    pivot: { x: number; y: number },
-    angleDegrees: number
+  point: { x: number; y: number },
+  pivot: { x: number; y: number },
+  angleDegrees: number
 ): { x: number; y: number } => {
   const angleRadians = degreesToRadians(angleDegrees);
 
   const x =
-      Math.cos(angleRadians) * (point.x - pivot.x) -
-      Math.sin(angleRadians) * (point.y - pivot.y) +
-      pivot.x;
+    Math.cos(angleRadians) * (point.x - pivot.x) -
+    Math.sin(angleRadians) * (point.y - pivot.y) +
+    pivot.x;
   const y =
-      Math.sin(angleRadians) * (point.x - pivot.x) +
-      Math.cos(angleRadians) * (point.y - pivot.y) +
-      pivot.y;
+    Math.sin(angleRadians) * (point.x - pivot.x) +
+    Math.cos(angleRadians) * (point.y - pivot.y) +
+    pivot.y;
 
   return { x, y };
 };
 
 export const getDynamicHeightsForTable = _getDynamicHeightsForTable;
+
 // ----------------------------------------
 
 export const addAlphaToHex = (hex: string, alphaPercentage: number) => {
@@ -75,18 +76,18 @@ export const addAlphaToHex = (hex: string, alphaPercentage: number) => {
 };
 
 export const isEditable = (mode: Mode, schema: Schema) =>
-    mode === 'designer' || (mode === 'form' && schema.readOnly !== true);
+  mode === 'designer' || (mode === 'form' && schema.readOnly !== true);
 
 const hex2rgb = (hex: string) => {
   if (hex.slice(0, 1) === '#') hex = hex.slice(1);
   if (hex.length === 3)
     hex =
-        hex.slice(0, 1) +
-        hex.slice(0, 1) +
-        hex.slice(1, 2) +
-        hex.slice(1, 2) +
-        hex.slice(2, 3) +
-        hex.slice(2, 3);
+      hex.slice(0, 1) +
+      hex.slice(0, 1) +
+      hex.slice(1, 2) +
+      hex.slice(1, 2) +
+      hex.slice(2, 3) +
+      hex.slice(2, 3);
 
   return [hex.slice(0, 2), hex.slice(2, 4), hex.slice(4, 6)].map((str) => parseInt(str, 16));
 };
@@ -147,37 +148,37 @@ const hex2CmykColor = (hexString: string | undefined) => {
 
 export const hex2PrintingColor = (hexString: string | undefined, colorType?: ColorType) => {
   return colorType?.toLocaleLowerCase() == 'cmyk'
-      ? hex2CmykColor(hexString)
-      : hex2RgbColor(hexString);
+    ? hex2CmykColor(hexString)
+    : hex2RgbColor(hexString);
 };
 
 export const readFile = (input: File | FileList | null): Promise<string | ArrayBuffer> =>
-    new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
+  new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
 
-      fileReader.onload = (e) => {
-        if (e.target?.result) {
-          resolve(e.target.result);
-        }
-      };
-
-      fileReader.onerror = (e) => {
-        reject(new Error('[@pdfme/schemas] File reading failed'));
-      };
-
-      let file: File | null = null;
-      if (input instanceof FileList && input.length > 0) {
-        file = input[0];
-      } else if (input instanceof File) {
-        file = input;
+    fileReader.onload = (e) => {
+      if (e.target?.result) {
+        resolve(e.target.result);
       }
+    };
 
-      if (file) {
-        fileReader.readAsDataURL(file);
-      } else {
-        reject(new Error('[@pdfme/schemas] No files provided'));
-      }
-    });
+    fileReader.onerror = (e) => {
+      reject(new Error('[@pdfme/schemas] File reading failed'));
+    };
+
+    let file: File | null = null;
+    if (input instanceof FileList && input.length > 0) {
+      file = input[0];
+    } else if (input instanceof File) {
+      file = input;
+    }
+
+    if (file) {
+      fileReader.readAsDataURL(file);
+    } else {
+      reject(new Error('[@pdfme/schemas] No files provided'));
+    }
+  });
 
 export const createErrorElm = () => {
   const container = document.createElement('div');
