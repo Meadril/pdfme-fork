@@ -2,58 +2,6 @@ import { propPanel as parentPropPanel } from '../text/propPanel';
 import { PropPanel, PropPanelWidgetProps } from '@pdfme/common';
 import { RadioButtonGroupSchema } from './types';
 
-// Definition von mapDynamicVariables (falls benötigt)
-const mapDynamicVariables = (props: PropPanelWidgetProps) => {
-  const { rootElement, changeSchemas, activeSchema, i18n, options } = props;
-  const mvtSchema = activeSchema as any;
-  const text = mvtSchema.text || '';
-  const variables = JSON.parse(mvtSchema.content) || {};
-  const variablesChanged = updateVariablesFromText(text, variables);
-  const varNames = Object.keys(variables);
-
-  if (variablesChanged) {
-    changeSchemas([
-      { key: 'content', value: JSON.stringify(variables), schemaId: activeSchema.id },
-      { key: 'variables', value: varNames, schemaId: activeSchema.id }
-    ]);
-  }
-
-  const placeholderRowEl = document.getElementById('placeholder-dynamic-var')?.closest('.ant-form-item') as HTMLElement;
-  if (!placeholderRowEl) {
-    throw new Error('Failed to find Ant form placeholder row to create dynamic variables inputs.');
-  }
-  placeholderRowEl.style.display = 'none';
-
-  (rootElement.parentElement as HTMLElement).style.display = 'block';
-
-  if (varNames.length > 0) {
-    for (let variableName of varNames) {
-      const varRow = placeholderRowEl.cloneNode(true) as HTMLElement;
-
-      const textarea = varRow.querySelector('textarea') as HTMLTextAreaElement;
-      textarea.id = 'dynamic-var-' + variableName;
-      textarea.value = variables[variableName];
-      textarea.addEventListener('change', (e: Event) => {
-        variables[variableName] = (e.target as HTMLTextAreaElement).value;
-        changeSchemas([{ key: 'content', value: JSON.stringify(variables), schemaId: activeSchema.id }]);
-      });
-
-      const label = varRow.querySelector('label') as HTMLLabelElement;
-      label.innerText = variableName;
-
-      varRow.style.display = 'block';
-      rootElement.appendChild(varRow);
-    }
-  } else {
-    const para = document.createElement('p');
-    para.innerHTML = i18n('schemas.mvt.typingInstructions')
-        + ` <code style="color:${options?.theme?.token?.colorPrimary || "#168fe3"}; font-weight:bold;">{`
-        + i18n('schemas.mvt.sampleField')
-        + '}</code>';
-    rootElement.appendChild(para);
-  }
-};
-
 export const propPanel: PropPanel<RadioButtonGroupSchema> = {
   schema: (propPanelProps: Omit<PropPanelWidgetProps, 'rootElement'>) => {
     if (typeof parentPropPanel.schema !== 'function') {
@@ -114,7 +62,6 @@ export const propPanel: PropPanel<RadioButtonGroupSchema> = {
   },
 };
 
-// Helper-Funktion zum Aktualisieren der Variablen
 const updateVariablesFromText = (text: string, variables: any): boolean => {
   const regex = /\{([^{}]+)}/g;
   const matches = text.match(regex);
