@@ -6,6 +6,7 @@ import {
   getTemplateByPreset,
   getPlugins, generatePDF,
 } from "./helper";
+import {templateVersion} from "./constants.ts";
 
 const translations: { label: string, value: string }[] = [
   { value: 'en', label: 'English' },
@@ -58,7 +59,13 @@ function App() {
               },
             },
             icons: {
-              multiVariableText: '<svg fill="#000000" width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.643,13.072,17.414,2.3a1.027,1.027,0,0,1,1.452,0L20.7,4.134a1.027,1.027,0,0,1,0,1.452L9.928,16.357,5,18ZM21,20H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg>'
+              multiVariableText: '<svg fill="#000000" width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.643,13.072,17.414,2.3a1.027,1.027,0,0,1,1.452,0L20.7,4.134a1.027,1.027,0,0,1,0,1.452L9.928,16.357,5,18ZM21,20H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg>',
+              radioButtonGroup: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">\n' +
+                      '  <!-- Äußerer Kreis -->\n' +
+                  '  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none" />\n' +
+                  '  <!-- Innerer gefüllter Kreis (zeigt an, dass der Radiobutton aktiviert ist) -->\n' +
+                  '  <circle cx="12" cy="12" r="5" fill="currentColor" />\n' +
+                  '</svg>\n'
             },
           },
           plugins: getPlugins(),
@@ -69,10 +76,15 @@ function App() {
   }
 
   const onSaveTemplate = (template?: Template) => {
+
     if (designer.current) {
+      const templateData = {
+        ...template || designer.current.getTemplate(),
+        templateVersion: templateVersion
+      };
       localStorage.setItem(
         "template",
-        JSON.stringify(template || designer.current.getTemplate())
+        JSON.stringify(templateData)
       );
       alert("Saved!");
     }

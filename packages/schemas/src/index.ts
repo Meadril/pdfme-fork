@@ -1,4 +1,5 @@
 import multiVariableText from './multiVariableText/index.js';
+import radioButtonGroup from './radioButtonGroup/index.js';
 import text from './text/index.js';
 import image from './graphics/image.js';
 import svg from './graphics/svg.js';
@@ -21,4 +22,5 @@ export {
   line,
   rectangle,
   ellipse,
+  radioButtonGroup,
 };

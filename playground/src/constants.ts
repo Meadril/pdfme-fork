@@ -1,0 +1,1 @@
+export const templateVersion = '1.0.0';
