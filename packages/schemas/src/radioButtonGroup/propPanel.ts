@@ -41,9 +41,24 @@ export const propPanel: PropPanel<RadioButtonGroupSchema> = {
           placeholder: 'Option 1, Option 2, Option 3',
         },
         onChange: (value: string, changeSchemas: Function, schemaId: string) => {
-          const newOptions = value.split(',').map(option => option.trim()).filter(option => option.length > 0);
+          const newOptions = value
+            .split(',')
+            .map((option) => option.trim())
+            .filter((option) => option.length > 0);
           changeSchemas([{ key: 'options', value: newOptions, schemaId }]);
         },
+      },
+      layout: {
+        title: 'Layout',
+        type: 'string',
+        widget: 'Select',
+        props: {
+          options: [
+            { label: 'Vertical', value: 'vertical' },
+            { label: 'Horizontal', value: 'horizontal' },
+          ],
+        },
+        span: 24,
       },
     };
   },
@@ -56,38 +71,9 @@ export const propPanel: PropPanel<RadioButtonGroupSchema> = {
     type: 'RadioButtonGroup',
     label: 'Select an option',
     numButtons: 3,
-    options: "Option 1, Option 2, Option 3",
+    options: 'Option 1, Option 2, Option 3',
     width: 50,
     height: 15,
+    layout: 'vertical', // Standardlayout ist vertikal
   },
-};
-
-const updateVariablesFromText = (text: string, variables: any): boolean => {
-  const regex = /\{([^{}]+)}/g;
-  const matches = text.match(regex);
-  let changed = false;
-
-  if (matches) {
-    for (const match of matches) {
-      const variableName = match.replace('{', '').replace('}', '');
-      if (!(variableName in variables)) {
-        variables[variableName] = variableName.toUpperCase();
-        changed = true;
-      }
-    }
-
-    Object.keys(variables).forEach((variableName) => {
-      if (!matches.includes('{' + variableName + '}')) {
-        delete variables[variableName];
-        changed = true;
-      }
-    });
-  } else {
-    Object.keys(variables).forEach((variableName) => {
-      delete variables[variableName];
-      changed = true;
-    });
-  }
-
-  return changed;
 };
