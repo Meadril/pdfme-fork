@@ -1,5 +1,6 @@
 import type { Lang, Dict } from '@pdfme/common';
 import { DEFAULT_LANG } from './constants.js';
+import {z} from "zod";
 
 const dictEn: { [key in keyof Dict]: string } = {
   cancel: 'Cancel',
@@ -67,6 +68,9 @@ const dictEn: { [key in keyof Dict]: string } = {
   'schemas.table.bodyStyle': 'Body Style',
   'schemas.table.columnStyle': 'Column Style',
   'schemas.numberOfSides': 'Number of Sides',
+  'schemas.mvt.showVariables': 'Show Variables',
+  'schemas.mvt.variablesList': 'Variables List',
+  'schemas.mvt.close': 'Close',
 };
 
 const dictZh: { [key in keyof Dict]: string } = {
@@ -134,6 +138,9 @@ const dictZh: { [key in keyof Dict]: string } = {
   'schemas.table.bodyStyle': '表体样式',
   'schemas.table.columnStyle': '列样式',
   'schemas.numberOfSides': '边数',
+  'schemas.mvt.showVariables': '显示变量',
+  'schemas.mvt.variablesList': '变量列表',
+  'schemas.mvt.close': '关闭',
 };
 
 const dictJa: { [key in keyof Dict]: string } = {
@@ -201,6 +208,9 @@ const dictJa: { [key in keyof Dict]: string } = {
   'schemas.table.bodyStyle': 'ボディスタイル',
   'schemas.table.columnStyle': 'カラムスタイル',
   'schemas.numberOfSides': '辺の数',
+  'schemas.mvt.showVariables': '変数を表示',
+  'schemas.mvt.variablesList': '変数リスト',
+  'schemas.mvt.close': '閉じる',
 };
 
 const dictKo: { [key in keyof Dict]: string } = {
@@ -268,6 +278,9 @@ const dictKo: { [key in keyof Dict]: string } = {
   'schemas.table.bodyStyle': '본문 스타일',
   'schemas.table.columnStyle': '열 스타일',
   'schemas.numberOfSides': '변의 수',
+  'schemas.mvt.showVariables': '변수 표시',
+  'schemas.mvt.variablesList': '변수 목록',
+  'schemas.mvt.close': '닫기',
 };
 
 const dictAr: { [key in keyof Dict]: string } = {
@@ -335,6 +348,9 @@ const dictAr: { [key in keyof Dict]: string } = {
   'schemas.table.bodyStyle': 'أسلوب الجسم',
   'schemas.table.columnStyle': 'أسلوب العمود',
   'schemas.numberOfSides': 'عدد الأضلاع',
+  'schemas.mvt.showVariables': 'إظهار المتغيرات',
+  'schemas.mvt.variablesList': 'قائمة المتغيرات',
+  'schemas.mvt.close': 'إغلاق',
 };
 
 const dictTh: { [key in keyof Dict]: string } = {
@@ -402,6 +418,9 @@ const dictTh: { [key in keyof Dict]: string } = {
   'schemas.table.bodyStyle': 'สไตล์เนื้อหา',
   'schemas.table.columnStyle': 'สไตล์คอลัมน์',
   'schemas.numberOfSides': 'จำนวนด้าน',
+  'schemas.mvt.showVariables': 'แสดงตัวแปร',
+  'schemas.mvt.variablesList': 'รายการตัวแปร',
+  'schemas.mvt.close': 'ปิด',
 };
 
 const dictIt: { [key in keyof Dict]: string } = {
@@ -471,6 +490,9 @@ const dictIt: { [key in keyof Dict]: string } = {
   'schemas.table.bodyStyle': 'Stile del Corpo',
   'schemas.table.columnStyle': 'Stile della Colonna',
   'schemas.numberOfSides': 'Numero di Lati',
+  'schemas.mvt.showVariables': 'Mostra Variabili',
+  'schemas.mvt.variablesList': 'Elenco Variabili',
+  'schemas.mvt.close': 'Chiudi',
 };
 
 const dictPl: { [key in keyof Dict]: string } = {
@@ -538,6 +560,9 @@ const dictPl: { [key in keyof Dict]: string } = {
   'schemas.table.bodyStyle': 'Styl ciała',
   'schemas.table.columnStyle': 'Styl kolumny',
   'schemas.numberOfSides': 'Liczba boków',
+  'schemas.mvt.showVariables': 'Pokaż zmienne',
+  'schemas.mvt.variablesList': 'Lista zmiennych',
+  'schemas.mvt.close': 'Zamknij',
 };
 
 const dictDe: { [key in keyof Dict]: string } = {
@@ -607,6 +632,9 @@ const dictDe: { [key in keyof Dict]: string } = {
   'schemas.table.bodyStyle': 'Körperstil',
   'schemas.table.columnStyle': 'Spaltenstil',
   'schemas.numberOfSides': 'Anzahl der Seiten',
+  'schemas.mvt.showVariables': 'Variablen anzeigen',
+  'schemas.mvt.variablesList': 'Variablenliste',
+  'schemas.mvt.close': 'Schließen',
 };
 
 const dictEs: { [key in keyof Dict]: string } = {
@@ -676,6 +704,9 @@ const dictEs: { [key in keyof Dict]: string } = {
   'schemas.table.bodyStyle': 'Estilo de cuerpo',
   'schemas.table.columnStyle': 'Estilo de columna',
   'schemas.numberOfSides': 'Número de lados',
+  'schemas.mvt.showVariables': 'Mostrar variables',
+  'schemas.mvt.variablesList': 'Lista de variables',
+  'schemas.mvt.close': 'Cerrar',
 };
 
 const dictFr: { [key in keyof Dict]: string } = {
@@ -743,6 +774,9 @@ const dictFr: { [key in keyof Dict]: string } = {
   'schemas.table.bodyStyle': 'Style de corps',
   'schemas.table.columnStyle': 'Style de colonne',
   'schemas.numberOfSides': 'Nombre de côtés',
+  'schemas.mvt.showVariables': 'Afficher les variables',
+  'schemas.mvt.variablesList': 'Liste des variables',
+  'schemas.mvt.close': 'Fermer',
 };
 
 const dictionaries: { [key in Lang]: Dict } = {

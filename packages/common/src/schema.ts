@@ -76,6 +76,9 @@ export const Dict = z.object({
   'schemas.table.bodyStyle': z.string(),
   'schemas.table.columnStyle': z.string(),
   'schemas.numberOfSides': z.string(),
+  'schemas.mvt.showVariables': z.string(),
+  'schemas.mvt.variablesList': z.string(),
+  'schemas.mvt.close': z.string(),
 });
 export const Mode = z.enum(['viewer', 'form', 'designer']);
 

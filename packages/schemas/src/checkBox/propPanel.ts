@@ -1,8 +1,8 @@
 import { propPanel as parentPropPanel } from '../text/propPanel';
 import { PropPanel, PropPanelWidgetProps } from '@pdfme/common';
-import { RadioButtonGroupSchema } from './types';
+import { CheckBoxSchema } from './types';
 
-export const propPanel: PropPanel<RadioButtonGroupSchema> = {
+export const propPanel: PropPanel<CheckBoxSchema> = {
   schema: (propPanelProps: Omit<PropPanelWidgetProps, 'rootElement'>) => {
     if (typeof parentPropPanel.schema !== 'function') {
       throw Error('Oops, is text schema no longer a function?');
@@ -11,9 +11,15 @@ export const propPanel: PropPanel<RadioButtonGroupSchema> = {
     return {
       ...parentPropPanel.schema(propPanelProps),
       label: {
-        title: 'Group Label',
+        title: 'Label',
         type: 'string',
         widget: 'Input',
+        span: 24,
+      },
+      checked: {
+        title: 'Checked',
+        type: 'boolean',
+        widget: 'Switch',
         span: 24,
       },
     };
@@ -24,12 +30,13 @@ export const propPanel: PropPanel<RadioButtonGroupSchema> = {
   defaultSchema: {
     ...parentPropPanel.defaultSchema,
     readOnly: false,
-    type: 'RadioButtonGroup',
-    label: 'Radiobuttons',
-    options: ['i.O.', 'n.i.O.', 'n.V.'],
+    type: 'CheckBox',
+    label: 'Checkbox',
+    checked: false,
     width: 50,
     height: 15,
     text: '',
     variables: [],
+    numButtons: 1,
   },
 };

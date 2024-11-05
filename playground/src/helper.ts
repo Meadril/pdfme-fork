@@ -16,7 +16,9 @@ import {
   line,
   table,
   rectangle,
-  ellipse, radioButtonGroup,
+  ellipse,
+  radioButtonGroup,
+  checkBox
 } from '@pdfme/schemas';
 import plugins from './plugins';
 
@@ -62,6 +64,7 @@ export const getPlugins = () => {
     Signature: plugins.signature,
     QR: barcodes.qrcode,
     RadioButton: radioButtonGroup,
+    CheckBox: checkBox,
     // JAPANPOST: barcodes.japanpost,
     // EAN13: barcodes.ean13,
     // EAN8: barcodes.ean8,
