@@ -16,12 +16,6 @@ export const propPanel: PropPanel<CheckBoxSchema> = {
         widget: 'Input',
         span: 24,
       },
-      checked: {
-        title: 'Checked',
-        type: 'boolean',
-        widget: 'Switch',
-        span: 24,
-      },
     };
   },
   widgets: {
@@ -32,7 +26,6 @@ export const propPanel: PropPanel<CheckBoxSchema> = {
     readOnly: false,
     type: 'CheckBox',
     label: 'Checkbox',
-    checked: false,
     width: 50,
     height: 15,
     text: '',

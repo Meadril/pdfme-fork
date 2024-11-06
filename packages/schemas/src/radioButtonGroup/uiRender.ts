@@ -14,6 +14,8 @@ export const uiRender = (arg: UIRenderProps<RadioButtonGroupSchema>) => {
 
   const labelEl = document.createElement('label');
   labelEl.textContent = label;
+    labelEl.style.fontFamily = schema.fontName;
+    labelEl.style.fontSize = schema.fontSize + 'px';
   labelEl.style.marginRight = '10px';
   labelEl.style.display = 'inline-block';
   labelEl.style.whiteSpace = 'nowrap';
@@ -40,6 +42,8 @@ export const uiRender = (arg: UIRenderProps<RadioButtonGroupSchema>) => {
 
     const radioLabel = document.createElement('label');
     radioLabel.textContent = option;
+    radioLabel.style.fontFamily = schema.fontName;
+    radioLabel.style.fontSize = schema.fontSize + 'px';
     radioLabel.style.marginLeft = '5px';
 
     radioInput.addEventListener('change', (e: Event) => {

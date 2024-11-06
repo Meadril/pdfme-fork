@@ -13,16 +13,13 @@ export const uiRender = (arg: UIRenderProps<CheckBoxSchema>) => {
 
   const labelEl = document.createElement('label');
   labelEl.textContent = label;
+  labelEl.style.fontFamily = schema.fontName;
+    labelEl.style.fontSize = schema.fontSize + 'px';
   labelEl.style.marginRight = '10px';
   mainContainer.appendChild(labelEl);
 
   const checkBoxInput = document.createElement('input');
   checkBoxInput.type = 'checkbox';
-  checkBoxInput.checked = value === 'checked';
-
-  checkBoxInput.addEventListener('change', (e: Event) => {
-    onChange && onChange({ key: 'checked', value: (e.target as HTMLInputElement).checked ? 'checked' : 'unchecked' });
-  });
 
   mainContainer.appendChild(checkBoxInput);
   rootElement.appendChild(mainContainer);
