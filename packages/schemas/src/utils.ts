@@ -45,7 +45,7 @@ export const convertForPdfLayoutProps = ({
 export const rotatePoint = (
   point: { x: number; y: number },
   pivot: { x: number; y: number },
-  angleDegrees: number
+  angleDegrees: Degrees
 ): { x: number; y: number } => {
   const angleRadians = degreesToRadians(angleDegrees);
 

@@ -181,7 +181,7 @@ export const pdfRender = async (arg: PDFRenderProps<TextSchema>) => {
 
     // draw underline
     if (schema.underline && textWidth > 0) {
-      const _x = xLine + textWidth + 1
+      const _x = xLine + textWidth + 1;
       const _y = yLine - textHeight / 12;
       page.drawLine({
         start: rotatePoint({ x: xLine, y: _y }, pivotPoint, rotate.angle),

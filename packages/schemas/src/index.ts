@@ -7,6 +7,7 @@ import svg from './graphics/svg.js';
 import barcodes from './barcodes/index.js';
 import line from './shapes/shapes.js';
 import table from './tables/index.js';
+import measureComp from './measureComp/index.js';
 import { rectangle, ellipse } from './shapes/rectAndEllipse.js';
 
 const builtInPlugins = { Text: text };
@@ -24,5 +25,6 @@ export {
   rectangle,
   ellipse,
   radioButtonGroup,
-  checkBox
+  checkBox,
+    measureComp,
 };

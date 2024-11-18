@@ -14,9 +14,9 @@ export const uiRender = (arg: UIRenderProps<RadioButtonGroupSchema>) => {
 
   const labelEl = document.createElement('label');
   labelEl.textContent = label;
-    labelEl.style.fontFamily = schema.fontName;
-    labelEl.style.fontSize = schema.fontSize + 'px';
-  labelEl.style.marginRight = '10px';
+  labelEl.style.fontFamily = schema.fontName || 'Arial';
+  labelEl.style.fontSize = `${schema.fontSize}px`;
+  labelEl.style.marginRight = '5px';
   labelEl.style.display = 'inline-block';
   labelEl.style.whiteSpace = 'nowrap';
   mainContainer.appendChild(labelEl);
@@ -27,24 +27,31 @@ export const uiRender = (arg: UIRenderProps<RadioButtonGroupSchema>) => {
 
   const options = ['i.O.', 'n.i.O.', 'n.V.'];
 
-  options.forEach((option) => {
+  const radioButtonSize = '10px';
+
+  options.forEach((option, index) => {
     const radioItem = document.createElement('div');
-    radioItem.style.marginRight = '10px';
+    radioItem.style.marginRight = index < options.length - 1 ? '10px' : '0px';
     radioItem.style.display = 'inline-flex';
     radioItem.style.alignItems = 'center';
     radioItem.style.whiteSpace = 'nowrap';
 
     const radioInput = document.createElement('input');
     radioInput.type = 'radio';
-    radioInput.name = `radio-group-${schema.id}`;
+    radioInput.name = `radio-group-${schema.group}`;
     radioInput.value = option;
     radioInput.checked = value === option;
+    radioInput.style.width = radioButtonSize;
+    radioInput.style.height = radioButtonSize;
+    radioInput.style.margin = '0 5px 0 0';
 
     const radioLabel = document.createElement('label');
     radioLabel.textContent = option;
-    radioLabel.style.fontFamily = schema.fontName;
-    radioLabel.style.fontSize = schema.fontSize + 'px';
+    radioLabel.style.fontFamily = schema.fontName || 'Arial';
+    radioLabel.style.fontSize = `${schema.fontSize}px`;
     radioLabel.style.marginLeft = '5px';
+
+    radioInput.style.transform = 'translateY(2px)';
 
     radioInput.addEventListener('change', (e: Event) => {
       if ((e.target as HTMLInputElement).checked) {

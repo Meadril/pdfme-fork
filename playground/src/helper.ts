@@ -18,9 +18,10 @@ import {
   rectangle,
   ellipse,
   radioButtonGroup,
-  checkBox
+  checkBox,
+  measureComp,
 } from '@pdfme/schemas';
-import plugins from './plugins';
+import plugins from './plugins/index';
 
 const fontObjList = [
   {
@@ -65,6 +66,7 @@ export const getPlugins = () => {
     QR: barcodes.qrcode,
     RadioButton: radioButtonGroup,
     CheckBox: checkBox,
+    measureComp: measureComp,
     // JAPANPOST: barcodes.japanpost,
     // EAN13: barcodes.ean13,
     // EAN8: barcodes.ean8,

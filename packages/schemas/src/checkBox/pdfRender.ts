@@ -1,10 +1,10 @@
 import { PDFRenderProps } from '@pdfme/common';
 import { CheckBoxSchema } from './types';
-import { rgb } from '@pdfme/pdf-lib';
+import {PDFFont, rgb} from '@pdfme/pdf-lib';
 import { convertForPdfLayoutProps } from '../utils.js';
 
 export const pdfRender = async (arg: PDFRenderProps<CheckBoxSchema>) => {
-  const { schema, page } = arg;
+  const { schema, page, ...rest } = arg;
 
   const fontSize = schema.fontSize || 12;
   const fontColor = schema.fontColor || '#000000';
@@ -29,7 +29,7 @@ export const pdfRender = async (arg: PDFRenderProps<CheckBoxSchema>) => {
     color: fontColorRgb,
   });
 
-  const labelWidth = schema.label.length * fontSize * 0.7;
+  const labelWidth = schema.label.length * fontSize * 0.5;
   const currentX = x + labelWidth + labelPadding;
 
   page.drawRectangle({

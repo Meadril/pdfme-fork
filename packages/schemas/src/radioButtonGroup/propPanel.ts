@@ -16,6 +16,12 @@ export const propPanel: PropPanel<RadioButtonGroupSchema> = {
         widget: 'Input',
         span: 24,
       },
+      group:{
+        title: 'Group',
+        type: 'string',
+        widget: 'Input',
+        span: 24,
+      }
     };
   },
   widgets: {
@@ -25,11 +31,13 @@ export const propPanel: PropPanel<RadioButtonGroupSchema> = {
     ...parentPropPanel.defaultSchema,
     readOnly: false,
     type: 'RadioButtonGroup',
+    group: '',
     label: 'Radiobuttons',
     options: ['i.O.', 'n.i.O.', 'n.V.'],
     width: 50,
     height: 15,
     text: '',
     variables: [],
+    numButtons: 3,
   },
 };

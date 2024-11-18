@@ -5,4 +5,5 @@ export interface CheckBoxSchema extends TextSchema {
   variables: string[];
   label: string;
   numButtons: number;
+  group: string;
 }

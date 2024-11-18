@@ -16,6 +16,12 @@ export const propPanel: PropPanel<CheckBoxSchema> = {
         widget: 'Input',
         span: 24,
       },
+      group: {
+        title: 'Group',
+        type: 'string',
+        widget: 'Input',
+        span: 24,
+      },
     };
   },
   widgets: {
@@ -31,5 +37,6 @@ export const propPanel: PropPanel<CheckBoxSchema> = {
     text: '',
     variables: [],
     numButtons: 1,
+    group: ''
   },
 };
