@@ -61,6 +61,7 @@ const DetailView = (props: DetailViewProps) => {
 
   useEffect(() => {
     const values: any = { ...activeSchema };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     values.editable = !(values.readOnly)
     form.setValues(values);
   }, [activeSchema, form]);
@@ -96,7 +97,9 @@ const DetailView = (props: DetailViewProps) => {
     for (const key in formSchema) {
       if (['id', 'content'].includes(key)) continue;
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
       let value = formSchema[key];
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (formAndSchemaValuesDiffer(value, (activeSchema as any)[key])) {
         // FIXME memo: https://github.com/pdfme/pdfme/pull/367#issuecomment-1857468274
         if (value === null && ['rotate', 'opacity'].includes(key)) {
@@ -112,6 +115,7 @@ const DetailView = (props: DetailViewProps) => {
           continue;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         changes.push({ key, value, schemaId: activeSchema.id });
       }
     }
@@ -136,6 +140,7 @@ const DetailView = (props: DetailViewProps) => {
   }, 100);
 
   const activePlugin = Object.values(pluginsRegistry).find(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (plugin) => plugin?.propPanel.defaultSchema.type === activeSchema.type
   )!;
 
@@ -147,8 +152,10 @@ Check this document: https://pdfme.com/docs/custom-schemas`);
 
   const typeOptions = Object.entries(pluginsRegistry).map(([label, value]) => ({
     label,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     value: value?.propPanel.defaultSchema.type,
   }));
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const defaultSchema = activePlugin.propPanel.defaultSchema;
 
   const propPanelSchema: PropPanelSchema = {
@@ -174,6 +181,7 @@ Check this document: https://pdfme.com/docs/custom-schemas`);
         }],
         props: { autoComplete: "off" }
       },
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       editable: { title: i18n('editable'), type: 'boolean', span: 8, hidden: defaultSchema?.readOnly !== undefined },
       required: { title: i18n('required'), type: 'boolean', span: 16, hidden: "{{!formData.editable}}" },
       '-': { type: 'void', widget: 'Divider' },
@@ -206,6 +214,7 @@ Check this document: https://pdfme.com/docs/custom-schemas`);
         title: i18n('rotate'),
         type: 'number',
         widget: 'inputNumber',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         disabled: defaultSchema?.rotate === undefined,
         max: 360,
         props: { min: 0 },
@@ -215,6 +224,7 @@ Check this document: https://pdfme.com/docs/custom-schemas`);
         title: i18n('opacity'),
         type: 'number',
         widget: 'inputNumber',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         disabled: defaultSchema?.opacity === undefined,
         props: { step: 0.1, min: 0, max: 1 },
         span: 6,
@@ -246,6 +256,8 @@ Check this document: https://pdfme.com/docs/custom-schemas`);
     };
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return (
     <div>
       <div style={{ height: 40, display: 'flex', alignItems: 'center' }}>
@@ -258,7 +270,9 @@ Check this document: https://pdfme.com/docs/custom-schemas`);
             justifyContent: 'center',
           }}
           onClick={deselectSchema}
-          icon={<MenuOutlined />}
+          icon={
+            <MenuOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+          }
         />
         <Text strong style={{ textAlign: 'center', width: '100%' }}>
           {i18n('editField')}

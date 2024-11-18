@@ -29,23 +29,8 @@ const Item = React.memo(
     React.forwardRef<HTMLLIElement, Props>(
         (
             {
-                icon,
-                value,
-                status,
-                title,
-                required,
-                readOnly,
-                style,
-                dragOverlay,
-                onClick,
-                onMouseEnter,
-                onMouseLeave,
-                dragging,
-                fadeIn,
-                listeners,
-                sorting,
-                transition,
-                transform,
+                // eslint-disable-next-line react/prop-types
+                icon,value,status,title,required, readOnly,style,dragOverlay,onClick,onMouseEnter,onMouseLeave,dragging,fadeIn,listeners,sorting,transition,transform,
                 ...props
             },
             ref
@@ -67,62 +52,69 @@ const Item = React.memo(
             const { x, y, scaleX, scaleY } = transform || { x: 0, y: 0, scaleX: 1, scaleY: 1 };
 
             return (
-                <li
-                    style={{
-                        marginTop: 10,
-                        transition,
-                        transform: `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY})`,
-                    }}
-                    onMouseEnter={onMouseEnter}
-                    onMouseLeave={onMouseLeave}
-                    ref={ref}
+              <li
+                style={{
+                  marginTop: 10,
+                  transition,
+                  transform: `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY})`,
+                }}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                ref={ref}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                    ...style,
+                  }}
+                  {...props}
+                  onClick={() => onClick && onClick()}
                 >
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            cursor: 'pointer',
-                            ...style,
-                        }}
-                        {...props}
-                        onClick={() => onClick && onClick()}
-                    >
-                        <Button
-                            {...listeners}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                background: 'none',
-                                boxShadow: 'none',
-                                border: 'none',
-                                paddingLeft: '0.25rem',
-                            }}
-                            icon={<HolderOutlined style={{ cursor: 'grab' }} />}
+                  <Button
+                    {...listeners}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      background: 'none',
+                      boxShadow: 'none',
+                      border: 'none',
+                      paddingLeft: '0.25rem',
+                    }}
+                    icon={
+                      <HolderOutlined
+                        style={{ cursor: 'grab' }}
+                        onPointerEnterCapture={undefined}
+                        onPointerLeaveCapture={undefined}
+                      />
+                    }
+                  />
+                  {icon}
+                    {status === undefined ? (
+                        value
+                    ) : (
+                        <span>
+                        <ExclamationCircleOutlined
+                            width={15}
+                            style={{ marginRight: '0.5rem' }}
+                            onPointerEnterCapture={undefined}
+                            onPointerLeaveCapture={undefined}
                         />
-                        {icon}
-                        <Text
-                            style={{
-                                overflow: 'hidden',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis',
-                                width: '100%',
-                            }}
-                            title={title || ''}
-                        >
-                            {status === undefined ? (
-                                value
-                            ) : (
-                                <span>
-                  <ExclamationCircleOutlined width={15} style={{ marginRight: '0.5rem' }} />
-                                    {status === 'is-warning' ? i18n('noKeyName') : value}
-                                    {status === 'is-danger' ? i18n('notUniq') : ''}
-                </span>
-                            )}
-                            {readOnly && <LockOutlined style={{ marginLeft: '0.5rem' }} />}
-                            {required && <span style={{ color: 'red', marginLeft: '0.5rem' }}>*</span>}
-                        </Text>
-                    </div>
-                </li>
+                            {status === 'is-warning' ? i18n('noKeyName') : value}
+                            {status === 'is-danger' ? i18n('notUniq') : ''}
+                      </span>
+                    )}
+                    {readOnly && (
+                        <LockOutlined
+                            style={{ marginLeft: '0.5rem' }}
+                            onPointerEnterCapture={undefined}
+                            onPointerLeaveCapture={undefined}
+                        />
+                    )}
+                    {required && <span style={{ color: 'red', marginLeft: '0.5rem' }}>*</span>}
+                </div>
+              </li>
             );
         }
     )

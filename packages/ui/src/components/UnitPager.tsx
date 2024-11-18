@@ -29,7 +29,11 @@ const UnitButton: React.FC<UnitButtonProps> = ({ type, onClick, disabled, textSt
 
   return (
     <Button type="text" onClick={onClick} disabled={disabled}>
-      <Icon style={{ color: textStyle.color }} />
+      <Icon
+        style={{ color: textStyle.color }}
+        onPointerEnterCapture={undefined}
+        onPointerLeaveCapture={undefined}
+      />
     </Button>
   );
 };

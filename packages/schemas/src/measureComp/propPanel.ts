@@ -14,11 +14,6 @@ export const propPanel: PropPanel<MeasureCompSchema> = {
         type: 'number',
         default: 1,
       },
-      tree:{
-        title: 'Tree',
-        type: 'Tree',
-        default: '',
-    }
     };
   },
   widgets: { ...parentPropPanel.widgets },
@@ -28,6 +23,5 @@ export const propPanel: PropPanel<MeasureCompSchema> = {
     text: "",
     variables: [],
     data: [],
-    tree: '',
   },
 };

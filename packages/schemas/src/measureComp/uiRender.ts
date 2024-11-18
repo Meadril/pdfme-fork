@@ -1,6 +1,8 @@
 import { UIRenderProps } from '@pdfme/common';
 import { MeasureCompSchema } from './types';
 import { uiRender as parentUiRender } from '../text/uiRender';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import Chart from 'chart.js/auto';
 
 export const uiRender = async (arg: UIRenderProps<MeasureCompSchema>) => {
@@ -14,7 +16,8 @@ export const uiRender = async (arg: UIRenderProps<MeasureCompSchema>) => {
     rootElement: container,
     onChange: (arg: { key: string; value: any; } | { key: string; value: any; }[]) => {
       if (!Array.isArray(arg)) {
-        onChange && onChange({ key: 'text', value: arg.value });
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        onChange && onChange({key: 'text', value: arg.value});
       } else {
         throw new Error('onChange is not an array, the parent text plugin has changed...');
       }
@@ -35,7 +38,7 @@ export const uiRender = async (arg: UIRenderProps<MeasureCompSchema>) => {
     const chart = new Chart(chartCanvas, {
       type: 'line',
       data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: ['test', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7'],
         datasets: [{
           label: `Chart ${i + 1}`,
           data: [65, 59, 80, 81, 56, 55, 40],

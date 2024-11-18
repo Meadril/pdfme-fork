@@ -61,7 +61,11 @@ const DeleteButton = ({ activeElements: aes }: { activeElements: HTMLElement[] }
         background: token.colorPrimary,
       }}
     >
-      <CloseOutlined style={{ pointerEvents: 'none' }} />
+      <CloseOutlined
+        style={{ pointerEvents: 'none' }}
+        onPointerEnterCapture={undefined}
+        onPointerLeaveCapture={undefined}
+      />
     </Button>
   );
 };
@@ -147,6 +151,7 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
   }, [initEvents, destroyEvents]);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     moveable.current?.updateRect();
     if (!prevSchemas) {
       return;
@@ -156,6 +161,7 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
     const schemaKeys = JSON.stringify(schemasList[pageCursor] || {});
 
     if (prevSchemaKeys === schemaKeys) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       moveable.current?.updateRect();
     }
   }, [pageCursor, schemasList, prevSchemas]);
@@ -314,6 +320,7 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
     guides[index] && guides[index].getGuides().map((g) => g * ZOOM);
 
   const onClickMoveable = (e: OnClick) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     e.inputEvent.stopPropagation();
     setEditing(true);
   };
@@ -325,10 +332,12 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
     const schemaTypes = selectedSchemas.map((s) => s.type);
     const uniqueSchemaTypes = [...new Set(schemaTypes)];
     const defaultSchemas = Object.values(pluginsRegistry).map(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       (plugin) => plugin?.propPanel.defaultSchema
     );
 
     return uniqueSchemaTypes.every(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       (type) => defaultSchemas.find((ds) => ds.type === type)?.rotate !== undefined
     );
   }, [activeElements, pageCursor, schemasList, pluginsRegistry]);
@@ -347,20 +356,26 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
         container={paperRefs.current[pageCursor]}
         continueSelect={isPressShiftKey}
         onDragStart={(e) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const { inputEvent } = e;
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
           const isMoveableElement = moveable.current?.isMoveableElement(inputEvent.target);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if ((inputEvent.type === 'touchstart' && e.isTrusted) || isMoveableElement) {
             e.stop();
           }
 
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (paperRefs.current[pageCursor] === inputEvent.target) {
             onEdit([]);
           }
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (inputEvent.target?.id === DELETE_BTN_ID) {
             removeSchemas(activeElements.map((ae) => ae.id));
           }
         }}
         onSelect={({ added, removed, selected, inputEvent }) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           const isClick = inputEvent.type === 'mousedown';
           let newActiveElements: HTMLElement[] = isClick ? (selected as HTMLElement[]) : [];
           if (!isClick && added.length > 0) {
@@ -375,6 +390,7 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
             setEditing(false);
           }
           // For MacOS CMD+SHIFT+3/4 screenshots where the keydown event is never received, check mouse too
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (!inputEvent.shiftKey) {
             setIsPressShiftKey(false);
           }
@@ -447,6 +463,7 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
             }
             onChange={(arg) => {
               const args = Array.isArray(arg) ? arg : [arg];
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
               changeSchemas(args.map(({ key, value }) => ({ key, value, schemaId: schema.id })));
             }}
             stopEditing={() => setEditing(false)}

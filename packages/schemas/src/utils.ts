@@ -1,5 +1,5 @@
 import type * as CSS from 'csstype';
-import { cmyk, degrees, degreesToRadians, rgb } from '@pdfme/pdf-lib';
+import {cmyk, degrees, degreesToRadians, rgb} from '@pdfme/pdf-lib';
 import { Schema, mm2pt, Mode, isHexValid, ColorType } from '@pdfme/common';
 import { getDynamicHeightsForTable as _getDynamicHeightsForTable } from './tables/dynamicTemplate.js';
 
@@ -45,8 +45,10 @@ export const convertForPdfLayoutProps = ({
 export const rotatePoint = (
   point: { x: number; y: number },
   pivot: { x: number; y: number },
-  angleDegrees: Degrees
+  angleDegrees: number
 ): { x: number; y: number } => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const angleRadians = degreesToRadians(angleDegrees);
 
   const x =

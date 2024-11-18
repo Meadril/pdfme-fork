@@ -38,7 +38,19 @@ const Sidebar = (props: SidebarProps) => {
             right: '1rem',
             zIndex: 100,
           }}
-          icon={sidebarOpen ? <ArrowRightOutlined /> : <ArrowLeftOutlined />}
+          icon={
+            sidebarOpen ? (
+              <ArrowRightOutlined
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+            ) : (
+              <ArrowLeftOutlined
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+            )
+          }
           onClick={() => setSidebarOpen(!sidebarOpen)}
         />
         <div

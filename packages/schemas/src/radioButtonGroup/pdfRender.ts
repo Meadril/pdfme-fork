@@ -6,8 +6,8 @@ import {
   Font,
   ColorType,
 } from '@pdfme/common';
-import { hex2PrintingColor, rotatePoint, convertForPdfLayoutProps } from '../utils';
-import { PDFDocument, PDFFont, degrees } from '@pdfme/pdf-lib';
+import { hex2PrintingColor, convertForPdfLayoutProps } from '../utils';
+import { PDFDocument, PDFFont } from '@pdfme/pdf-lib';
 import {
   DEFAULT_ALIGNMENT,
   DEFAULT_CHARACTER_SPACING,
@@ -50,7 +50,9 @@ const embedAndGetFontObj = async (arg: {
   return fontObj;
 };
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const getFontKitFont = async (fontName: string, font: string, _cache: any): Promise<any> => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
   return _cache[fontName] || font;
 };
 
@@ -91,13 +93,16 @@ export const pdfRender = async (arg: PDFRenderProps<TextSchema>) => {
 
   const { font = getDefaultFont(), colorType } = options;
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [pdfFontObj, fontKitFont, fontProp] = await Promise.all([
     embedAndGetFontObj({ pdfDoc, font, _cache }),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     getFontKitFont(schema.fontName, font, _cache),
     getFontProp({ value, font, schema, _cache, colorType }),
   ]);
 
-  const { fontSize, color, alignment, verticalAlignment, lineHeight, characterSpacing } = fontProp;
+  const { fontSize, color, verticalAlignment, lineHeight, characterSpacing } = fontProp;
 
   const fontName = (
       schema.fontName ? schema.fontName : getFallbackFontName(font)
@@ -108,14 +113,15 @@ export const pdfRender = async (arg: PDFRenderProps<TextSchema>) => {
   const {
     width,
     height,
-    rotate,
     position: { x, y },
     opacity,
   } = convertForPdfLayoutProps({ schema, pageHeight, applyRotateTranslate: false });
 
   page.pushOperators(pdfLib.setCharacterSpacing(characterSpacing ?? DEFAULT_CHARACTER_SPACING));
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const firstLineTextHeight = heightOfFontAtSize(fontKitFont, fontSize);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const descent = getFontDescentInPt(fontKitFont, fontSize);
   const halfLineHeightAdjustment = lineHeight === 0 ? 0 : ((lineHeight - 1) * fontSize) / 2;
 
@@ -123,6 +129,7 @@ export const pdfRender = async (arg: PDFRenderProps<TextSchema>) => {
     value,
     characterSpacing,
     fontSize,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     fontKitFont,
     boxWidthInPt: width,
   });
