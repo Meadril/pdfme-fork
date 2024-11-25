@@ -1,8 +1,8 @@
 import { propPanel as parentPropPanel } from '../text/propPanel';
 import { PropPanel, PropPanelWidgetProps } from '@pdfme/common';
-import { RadioButtonGroupSchema } from './types';
+import { RadioButtonSchema } from './types';
 
-export const propPanel: PropPanel<RadioButtonGroupSchema> = {
+export const propPanel: PropPanel<RadioButtonSchema> = {
   schema: (propPanelProps: Omit<PropPanelWidgetProps, 'rootElement'>) => {
     if (typeof parentPropPanel.schema !== 'function') {
       throw Error('Oops, is text schema no longer a function?');
@@ -10,19 +10,31 @@ export const propPanel: PropPanel<RadioButtonGroupSchema> = {
 
     return {
       ...parentPropPanel.schema(propPanelProps),
-      label: {
-        title: 'Group Label',
+
+      labelRadioButtonGroup: {
+        title: 'Label Radio Button Group',
         type: 'string',
         widget: 'Input',
         span: 24,
       },
-      group:{
-        title: 'Group',
+      appRender: {
+        title: 'App Render',
+        type: 'object',
+        widget: 'Divider',
+      },
+      section: {
+        title: 'Section',
         type: 'string',
         widget: 'Input',
         span: 24,
-      }
-    };
+      },
+      buttons: {
+        title: 'Buttons',
+        type: 'array',
+        widget: 'ButtonCounter',
+        span: 24,
+      },
+    }
   },
   widgets: {
     ...parentPropPanel.widgets,
@@ -30,14 +42,10 @@ export const propPanel: PropPanel<RadioButtonGroupSchema> = {
   defaultSchema: {
     ...parentPropPanel.defaultSchema,
     readOnly: false,
-    type: 'RadioButtonGroup',
-    group: '',
-    label: 'Radiobuttons',
-    options: ['i.O.', 'n.i.O.', 'n.V.'],
-    width: 50,
-    height: 15,
-    text: '',
-    variables: [],
-    numButtons: 3,
+    type: 'RadioButton',
+    position: { x: 0, y: 0 },
+    width: 40,
+    height: 50,
+    appRender: { section: "", buttons: [] },
   },
 };

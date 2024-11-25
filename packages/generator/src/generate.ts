@@ -68,7 +68,9 @@ const generate = async (props: GenerateProps) => {
         if (!render) {
           continue;
         }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const value = schema.readOnly ? schema.content || '' : input[name];
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         await render({ value, schema, basePdf, pdfLib, pdfDoc, page, options, _cache });
       }
     }

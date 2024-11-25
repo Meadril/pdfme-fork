@@ -16,6 +16,7 @@
     "@pdfme/generator": "file:../packages/generator",
     "@pdfme/schemas": "file:../packages/schemas",
     "@pdfme/ui": "file:../packages/ui",
+    "canvas": "^2.11.2",
     "esbuild": "^0.19.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

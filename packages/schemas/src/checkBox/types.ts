@@ -1,9 +1,5 @@
-import type { TextSchema } from '../text/types';
+import type { Schema } from '@pdfme/common';
 
-export interface CheckBoxSchema extends TextSchema {
-  text: string;
-  variables: string[];
-  label: string;
-  numButtons: number;
-  group: string;
+export interface CheckBoxSchema extends Schema {
+  appRender: { section: "", buttons: [] },
 }

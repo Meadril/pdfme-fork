@@ -17,9 +17,9 @@ import {
   table,
   rectangle,
   ellipse,
-  radioButtonGroup,
+  radioButton,
   checkBox,
-  measureComp,
+  measurementPoint,
 } from '@pdfme/schemas';
 import plugins from './plugins/index';
 
@@ -43,10 +43,10 @@ const fontObjList = [
 
 export const getFontsData = async () => {
   const fontDataList = (await Promise.all(
-    fontObjList.map(async (font) => ({
-      ...font,
-      data: font.data || (await fetch(font.url || '').then((res) => res.arrayBuffer())),
-    }))
+      fontObjList.map(async (font) => ({
+        ...font,
+        data: font.data || (await fetch(font.url || '').then((res) => res.arrayBuffer())),
+      }))
   )) as { fallback: boolean; label: string; data: ArrayBuffer }[];
 
   return fontDataList.reduce((acc, font) => ({ ...acc, [font.label]: font }), {} as Font);
@@ -64,9 +64,10 @@ export const getPlugins = () => {
     SVG: svg,
     Signature: plugins.signature,
     QR: barcodes.qrcode,
-    RadioButton: radioButtonGroup,
+    RadioButton: radioButton,
     CheckBox: checkBox,
-    measureComp: measureComp,
+    MeasurementPoint: measurementPoint,
+    // measureComp: measureComp,
     // JAPANPOST: barcodes.japanpost,
     // EAN13: barcodes.ean13,
     // EAN8: barcodes.ean8,
@@ -84,9 +85,9 @@ export const generatePDF = async (currentRef: Designer | Form | Viewer | null) =
   if (!currentRef) return;
   const template = currentRef.getTemplate();
   const inputs =
-    typeof (currentRef as Viewer | Form).getInputs === 'function'
-      ? (currentRef as Viewer | Form).getInputs()
-      : getInputFromTemplate(template);
+      typeof (currentRef as Viewer | Form).getInputs === 'function'
+          ? (currentRef as Viewer | Form).getInputs()
+          : getInputFromTemplate(template);
   const font = await getFontsData();
 
   try {
@@ -118,7 +119,7 @@ export const isJsonString = (str: string) => {
 };
 
 const getBlankTemplate = () =>
-  ({ schemas: [{}], basePdf: { width: 210, height: 297, padding: [10, 10, 10, 10] } } as Template);
+    ({ schemas: [{}], basePdf: { width: 210, height: 297, padding: [10, 10, 10, 10] } } as Template);
 
 export const getTemplatePresets = (): {
   key: string;

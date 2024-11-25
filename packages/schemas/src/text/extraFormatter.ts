@@ -35,7 +35,7 @@ interface GroupButtonString {
   key: Formatter;
   icon: string;
   type: 'select';
-  value: String;
+  value: string;
 }
 
 export type GroupButton = GroupButtonBoolean | GroupButtonString;

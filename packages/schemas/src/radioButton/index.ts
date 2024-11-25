@@ -2,9 +2,9 @@ import type { Plugin } from '@pdfme/common';
 import { pdfRender } from './pdfRender.js';
 import { propPanel } from './propPanel.js';
 import { uiRender } from './uiRender.js';
-import type { RadioButtonGroupSchema } from './types';
+import type { RadioButtonSchema } from './types';
 
-const schema: Plugin<RadioButtonGroupSchema> = {
+const schema: Plugin<RadioButtonSchema> = {
     pdf: pdfRender,
     ui: uiRender,
     propPanel,

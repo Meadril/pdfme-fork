@@ -188,7 +188,6 @@ export const propPanel: PropPanel<MultiVariableTextSchema> = {
           },
         }
       },
-
     };
   },
   widgets: { ...parentPropPanel.widgets, mapDynamicVariables },

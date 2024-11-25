@@ -49,9 +49,9 @@
   },
   "dependencies": {
     "@pdfme/pdf-lib": "^1.18.3",
+    "@pdfme/schemas": "file:",
     "bwip-js": "^4.1.1",
     "chart.js": "^4.4.6",
-    "chartjs-plugin-datalabels": "^2.2.0",
     "fast-xml-parser": "^4.3.2",
     "fontkit": "^2.0.2"
   },

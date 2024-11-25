@@ -34,8 +34,8 @@ function App() {
       const templateString = localStorage.getItem("template");
 
       const templateJson = templateString
-        ? JSON.parse(templateString)
-        : getTemplateByPreset(localStorage.getItem('templatePreset') || "");
+          ? JSON.parse(templateString)
+          : getTemplateByPreset(localStorage.getItem('templatePreset') || "");
       checkTemplate(templateJson);
       template = templateJson as Template;
     } catch {
@@ -81,8 +81,8 @@ function App() {
         templateVersion: templateVersion
       };
       localStorage.setItem(
-        "template",
-        JSON.stringify(templateData)
+          "template",
+          JSON.stringify(templateData)
       );
       alert("Saved!");
     }

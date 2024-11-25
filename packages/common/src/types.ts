@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { PDFPage, PDFDocument } from '@pdfme/pdf-lib';
+import type { PDFPage, PDFDocument, PDFRadioGroup } from '@pdfme/pdf-lib';
 /**  @ts-ignore -- optional interface, will gracefully degrade to `any` if `antd` isn't installed **/
 import type { ThemeConfig, GlobalToken } from 'antd';
 /**  @ts-ignore -- optional interface, will gracefully degrade to `any` if `form-render` isn't installed*/

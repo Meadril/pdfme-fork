@@ -51,7 +51,7 @@ const AlignWidget = (props: PropPanelWidgetProps) => {
       basePos = max;
       adjust = (num: number) => num;
     }
-
+    console.log(ass)
     changeSchemas(
       ass.map((as) => ({
         key: `position.${tgtPos}`,

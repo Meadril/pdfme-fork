@@ -1,6 +1,6 @@
 import { propPanel as parentPropPanel } from '../text/propPanel';
 import { PropPanel, PropPanelWidgetProps } from '@pdfme/common';
-import { CheckBoxSchema } from './types';
+import {CheckBoxSchema} from './types';
 
 export const propPanel: PropPanel<CheckBoxSchema> = {
   schema: (propPanelProps: Omit<PropPanelWidgetProps, 'rootElement'>) => {
@@ -10,19 +10,24 @@ export const propPanel: PropPanel<CheckBoxSchema> = {
 
     return {
       ...parentPropPanel.schema(propPanelProps),
-      label: {
-        title: 'Label',
+      appRender: {
+        title: 'App Render',
+        type: 'object',
+        widget: 'Divider',
+      },
+      section: {
+        title: 'Section',
         type: 'string',
         widget: 'Input',
         span: 24,
       },
-      group: {
-        title: 'Group',
-        type: 'string',
-        widget: 'Input',
+      buttons: {
+        title: 'Buttons',
+        type: 'array',
+        widget: 'ButtonCounter',
         span: 24,
       },
-    };
+    }
   },
   widgets: {
     ...parentPropPanel.widgets,
@@ -31,12 +36,8 @@ export const propPanel: PropPanel<CheckBoxSchema> = {
     ...parentPropPanel.defaultSchema,
     readOnly: false,
     type: 'CheckBox',
-    label: 'Checkbox',
     width: 50,
     height: 15,
-    text: '',
-    variables: [],
-    numButtons: 1,
-    group: ''
+    appRender: { section: "", buttons: [] },
   },
 };

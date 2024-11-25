@@ -10,6 +10,8 @@ import AlignWidget from './AlignWidget';
 import WidgetRenderer from './WidgetRenderer';
 import ButtonGroupWidget from './ButtonGroupWidget';
 import { InternalNamePath, ValidateErrorEntity } from "rc-field-form/es/interface";
+import ButtonCounterWidget from "./ButtonCounterWidget";
+import MeasurementWidget from "./MeasurementsWidget";
 
 const { Text } = Typography;
 
@@ -40,6 +42,8 @@ const DetailView = (props: DetailViewProps) => {
         <Divider style={{ marginTop: token.marginXS, marginBottom: token.marginXS }} />
       ),
       ButtonGroup: (p) => <ButtonGroupWidget {...p} {...props} options={options} />,
+      ButtonCounter: (p) => <ButtonCounterWidget {...p} {...props} options={options} />,
+      Measurement: (p) => <MeasurementWidget {...p} {...props} options={options} />,
     };
     for (const plugin of Object.values(pluginsRegistry)) {
       const widgets = plugin?.propPanel.widgets || {};
