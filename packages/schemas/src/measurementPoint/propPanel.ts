@@ -32,7 +32,7 @@ export const propPanel: PropPanel<MeasurementPointSchema> = {
                 type: 'array',
                 widget: 'Measurement',
                 span: 24,
-            },
+            }
         }
     },
     widgets: {
