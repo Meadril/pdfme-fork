@@ -58,8 +58,9 @@ import {
   isHexValid,
   getInputFromTemplate,
   isBlankPdf,
-  getDynamicTemplate,
 } from './helper.js';
+import { getDynamicTemplate } from './dynamicTemplate';
+import { replacePlaceholders } from './expression';
 
 export {
   PDFME_VERSION,
@@ -81,7 +82,6 @@ export {
   isHexValid,
   getInputFromTemplate,
   isBlankPdf,
-  getDynamicTemplate,
   checkFont,
   checkInputs,
   checkUIOptions,
@@ -90,6 +90,8 @@ export {
   checkPreviewProps,
   checkDesignerProps,
   checkGenerateProps,
+  getDynamicTemplate,
+  replacePlaceholders,
 };
 
 export type {

@@ -21,6 +21,7 @@ import {
   isFirefox,
 } from './helper.js';
 import { isEditable } from '../utils.js';
+import {DateSchema} from "../date/types";
 
 const replaceUnsupportedChars = (text: string, fontKitFont: FontKitFont): string => {
   const charSupportCache: { [char: string]: boolean } = {};
@@ -265,7 +266,7 @@ export const makeElementPlainTextContentEditable = (element: HTMLElement) => {
   });
 };
 
-const mapVerticalAlignToFlex = (verticalAlignmentValue: string | undefined) => {
+export const mapVerticalAlignToFlex = (verticalAlignmentValue: string | undefined) => {
   switch (verticalAlignmentValue) {
     case VERTICAL_ALIGN_TOP:
       return 'flex-start';
@@ -277,7 +278,7 @@ const mapVerticalAlignToFlex = (verticalAlignmentValue: string | undefined) => {
   return 'flex-start';
 };
 
-const getBackgroundColor = (value: string, schema: TextSchema) => {
+export const getBackgroundColor = (value: string, schema: DateSchema) => {
   if (!value || !schema.backgroundColor) return 'transparent';
   return schema.backgroundColor as string;
 };

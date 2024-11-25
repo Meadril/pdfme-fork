@@ -26,5 +26,5 @@ export {
   ellipse,
   radioButton,
   checkBox,
-  measurementPoint
+  measurementPoint,
 };

@@ -1,6 +1,11 @@
 import * as pdfLib from '@pdfme/pdf-lib';
 import type { GenerateProps } from '@pdfme/common';
-import { checkGenerateProps, getDynamicTemplate } from '@pdfme/common';
+import {
+  checkGenerateProps,
+  getDynamicTemplate,
+  isBlankPdf,
+  replacePlaceholders,
+} from '@pdfme/common';
 import { getDynamicHeightsForTable } from '@pdfme/schemas/utils';
 import {
   insertPage,
@@ -69,7 +74,13 @@ const generate = async (props: GenerateProps) => {
           continue;
         }
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const value = schema.readOnly ? schema.content || '' : input[name];
+        const value = schema.readOnly
+            ? replacePlaceholders({
+              content: schema.content || '',
+              variables: { ...input, totalPages: basePages.length, currentPage: j + 1 },
+              schemas: dynamicTemplate.schemas,
+            })
+            : input[name] || '';
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         await render({ value, schema, basePdf, pdfLib, pdfDoc, page, options, _cache });
       }

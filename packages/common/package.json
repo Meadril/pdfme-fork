@@ -71,5 +71,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@types/estree": "^1.0.6"
   }
 }

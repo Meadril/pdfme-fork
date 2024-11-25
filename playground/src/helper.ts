@@ -5,7 +5,7 @@ import {
   getDefaultFont,
   DEFAULT_FONT_NAME,
 } from '@pdfme/common';
-import { Form, Viewer, Designer } from '@pdfme/ui';
+import { Designer } from '@pdfme/ui';
 import { generate } from '@pdfme/generator';
 import {
   multiVariableText,
@@ -67,27 +67,13 @@ export const getPlugins = () => {
     RadioButton: radioButton,
     CheckBox: checkBox,
     MeasurementPoint: measurementPoint,
-    // measureComp: measureComp,
-    // JAPANPOST: barcodes.japanpost,
-    // EAN13: barcodes.ean13,
-    // EAN8: barcodes.ean8,
-    // Code39: barcodes.code39,
-    // Code128: barcodes.code128,
-    // NW7: barcodes.nw7,
-    // ITF14: barcodes.itf14,
-    // UPCA: barcodes.upca,
-    // UPCE: barcodes.upce,
-    // GS1DataMatrix: barcodes.gs1datamatrix,
   };
 };
 
-export const generatePDF = async (currentRef: Designer | Form | Viewer | null) => {
+export const generatePDF = async (currentRef: Designer ) => {
   if (!currentRef) return;
   const template = currentRef.getTemplate();
-  const inputs =
-      typeof (currentRef as Viewer | Form).getInputs === 'function'
-          ? (currentRef as Viewer | Form).getInputs()
-          : getInputFromTemplate(template);
+  const inputs = getInputFromTemplate(template);
   const font = await getFontsData();
 
   try {
@@ -119,7 +105,14 @@ export const isJsonString = (str: string) => {
 };
 
 const getBlankTemplate = () =>
-    ({ schemas: [{}], basePdf: { width: 210, height: 297, padding: [10, 10, 10, 10] } } as Template);
+    ({
+      schemas: [{}],
+      basePdf: {
+        width: 210,
+        height: 297,
+        padding: [10, 10, 10, 10],
+      },
+    } as Template);
 
 export const getTemplatePresets = (): {
   key: string;
