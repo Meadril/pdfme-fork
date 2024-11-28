@@ -22,7 +22,7 @@ const generate = async (props: GenerateProps) => {
 
   if (inputs.length === 0) {
     throw new Error(
-        '[@pdfme/generator] inputs should not be empty, pass at least an empty object in the array'
+      '[@pdfme/generator] inputs should not be empty, pass at least an empty object in the array'
     );
   }
 
@@ -61,6 +61,33 @@ const generate = async (props: GenerateProps) => {
       const basePage = basePages[j];
       const embedPdfBox = embedPdfBoxes[j];
       const page = insertPage({ basePage, embedPdfBox, pdfDoc });
+
+      if (isBlankPdf(basePdf) && basePdf.staticSchema) {
+        for (let k = 0; k < basePdf.staticSchema.length; k += 1) {
+          const staticSchema = basePdf.staticSchema[k];
+          const render = renderObj[staticSchema.type];
+          if (!render) {
+            continue;
+          }
+          const value = replacePlaceholders({
+            content: staticSchema.content || '',
+            variables: { ...input, totalPages: basePages.length, currentPage: j + 1 },
+            schemas: dynamicTemplate.schemas,
+          });
+
+          await render({
+            value,
+            schema: staticSchema,
+            basePdf,
+            pdfLib,
+            pdfDoc,
+            page,
+            options,
+            _cache,
+          });
+        }
+      }
+
       for (let l = 0; l < schemaNames.length; l += 1) {
         const name = schemaNames[l];
         const schemaPage = dynamicTemplate.schemas[j] || [];
@@ -73,15 +100,14 @@ const generate = async (props: GenerateProps) => {
         if (!render) {
           continue;
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const value = schema.readOnly
-            ? replacePlaceholders({
+          ? replacePlaceholders({
               content: schema.content || '',
               variables: { ...input, totalPages: basePages.length, currentPage: j + 1 },
               schemas: dynamicTemplate.schemas,
             })
-            : input[name] || '';
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          : input[name] || '';
+
         await render({ value, schema, basePdf, pdfLib, pdfDoc, page, options, _cache });
       }
     }

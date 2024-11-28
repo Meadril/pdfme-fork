@@ -87,16 +87,16 @@ const calculateCharacterSpacing = (textContent: string, textCharacterSpacing: nu
 };
 
 export const widthOfTextAtSize = (
-    text: string,
-    fontKitFont: FontKitFont,
-    fontSize: number,
-    characterSpacing: number
+  text: string,
+  fontKitFont: FontKitFont,
+  fontSize: number,
+  characterSpacing: number
 ) => {
   const { glyphs } = fontKitFont.layout(text);
   const scale = 1000 / fontKitFont.unitsPerEm;
   const standardWidth =
-      glyphs.reduce((totalWidth, glyph) => totalWidth + glyph.advanceWidth * scale, 0) *
-      (fontSize / 1000);
+    glyphs.reduce((totalWidth, glyph) => totalWidth + glyph.advanceWidth * scale, 0) *
+    (fontSize / 1000);
   return standardWidth + calculateCharacterSpacing(text, characterSpacing);
 };
 
@@ -108,9 +108,9 @@ const getFallbackFont = (font: Font) => {
 const getCacheKey = (fontName: string) => `getFontKitFont-${fontName}`;
 
 export const getFontKitFont = async (
-    fontName: string | undefined,
-    font: Font,
-    _cache: Map<any, any>
+  fontName: string | undefined,
+  font: Font,
+  _cache: Map<any, any>
 ) => {
   const fntNm = fontName || getFallbackFontName(font);
   const cacheKey = getCacheKey(fntNm);
@@ -122,12 +122,12 @@ export const getFontKitFont = async (
   let fontData = currentFont.data;
   if (typeof fontData === 'string') {
     fontData = fontData.startsWith('http')
-        ? await fetch(fontData).then((res) => res.arrayBuffer())
-        : b64toUint8Array(fontData);
+      ? await fetch(fontData).then((res) => res.arrayBuffer())
+      : b64toUint8Array(fontData);
   }
 
   const fontKitFont = fontkit.create(
-      fontData instanceof Buffer ? fontData : Buffer.from(fontData as ArrayBuffer)
+    fontData instanceof Buffer ? fontData : Buffer.from(fontData as ArrayBuffer)
   ) as fontkit.Font;
   _cache.set(cacheKey, fontKitFont);
 
@@ -222,12 +222,12 @@ export const getSplittedLines = (textLine: string, calcValues: FontWidthCalcValu
  * the box width based on the proposed size.
  */
 export const calculateDynamicFontSize = async ({
-                                                 textSchema,
-                                                 font,
-                                                 value,
-                                                 startingFontSize,
-                                                 _cache,
-                                               }: {
+  textSchema,
+  font,
+  value,
+  startingFontSize,
+  _cache,
+}: {
   textSchema: TextSchema;
   font: Font;
   value: string;
@@ -322,7 +322,7 @@ export const calculateDynamicFontSize = async ({
   while (shouldFontGrowToFit(totalWidthInMm, totalHeightInMm)) {
     dynamicFontSize += FONT_SIZE_ADJUSTMENT;
     const { totalWidthInMm: newWidth, totalHeightInMm: newHeight } =
-        calculateConstraints(dynamicFontSize);
+      calculateConstraints(dynamicFontSize);
 
     if (newHeight < boxHeight) {
       totalWidthInMm = newWidth;

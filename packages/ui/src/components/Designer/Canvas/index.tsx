@@ -13,7 +13,7 @@ import { theme, Button } from 'antd';
 import { OnDrag, OnResize, OnClick, OnRotate } from 'react-moveable';
 import { ZOOM, SchemaForUI, Size, ChangeSchemas, BasePdf, isBlankPdf, replacePlaceholders } from '@pdfme/common';
 import { PluginsRegistry } from '../../../contexts';
-import { CloseOutlined } from '@ant-design/icons';
+import { X } from 'lucide-react';
 import { RULER_HEIGHT, RIGHT_SIDEBAR_WIDTH } from '../../../constants';
 import { usePrevious } from '../../../hooks';
 import { uuid, round, flatten } from '../../../helper';
@@ -24,6 +24,7 @@ import Moveable from './Moveable';
 import Guides from './Guides';
 import Mask from './Mask';
 import Padding from './Padding';
+import StaticSchema from '../../StaticSchema';
 
 
 const mm2px = (mm: number) => mm * 3.7795275591;
@@ -43,26 +44,26 @@ const DeleteButton = ({ activeElements: aes }: { activeElements: HTMLElement[] }
   const left = Math.max(...aes.map(({ style }) => fmt4Num(style.left) + fmt4Num(style.width))) + 10;
 
   return (
-      <Button
-          id={DELETE_BTN_ID}
-          style={{
-            position: 'absolute',
-            zIndex: 1,
-            top,
-            left,
-            width: size,
-            height: size,
-            padding: 2,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: token.borderRadius,
-            color: token.colorWhite,
-            background: token.colorPrimary,
-          }}
-      >
-        <CloseOutlined style={{ pointerEvents: 'none' }} />
-      </Button>
+    <Button
+      id={DELETE_BTN_ID}
+      style={{
+        position: 'absolute',
+        zIndex: 1,
+        top,
+        left,
+        width: size,
+        height: size,
+        padding: 2,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: token.borderRadius,
+        color: token.colorWhite,
+        background: token.colorPrimary,
+      }}
+    >
+      <X style={{ pointerEvents: 'none' }} />
+    </Button>
   );
 };
 
@@ -311,7 +312,7 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
   };
 
   const getGuideLines = (guides: GuidesInterface[], index: number) =>
-      guides[index] && guides[index].getGuides().map((g) => g * ZOOM);
+    guides[index] && guides[index].getGuides().map((g) => g * ZOOM);
 
   const onClickMoveable = (e: OnClick) => {
     e.inputEvent.stopPropagation();
@@ -320,7 +321,7 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
 
   const rotatable = useMemo(() => {
     const selectedSchemas = (schemasList[pageCursor] || []).filter((s) =>
-        activeElements.map((ae) => ae.id).includes(s.id)
+      activeElements.map((ae) => ae.id).includes(s.id)
     );
     const schemaTypes = selectedSchemas.map((s) => s.type);
     const uniqueSchemaTypes = [...new Set(schemaTypes)];
@@ -371,111 +372,120 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
               }
               onEdit(newActiveElements);
 
-              if (newActiveElements != activeElements) {
-                setEditing(false);
-              }
-              // For MacOS CMD+SHIFT+3/4 screenshots where the keydown event is never received, check mouse too
-              if (!inputEvent.shiftKey) {
-                setIsPressShiftKey(false);
-              }
-            }}
-        />
-        <Paper
-            paperRefs={paperRefs}
-            scale={scale}
-            size={size}
-            schemasList={schemasList}
-            pageSizes={pageSizes}
-            backgrounds={backgrounds}
-            hasRulers={true}
-            renderPaper={({ index, paperSize }) => (
-                <>
-                  {!editing && activeElements.length > 0 && pageCursor === index && (
-                      <DeleteButton activeElements={activeElements} />
-                  )}
-                  <Padding basePdf={basePdf} />
-                  <Guides
-                      paperSize={paperSize}
-                      horizontalRef={(e) => {
-                        if (e) horizontalGuides.current[index] = e;
-                      }}
-                      verticalRef={(e) => {
-                        if (e) verticalGuides.current[index] = e;
-                      }}
-                  />
-                  {pageCursor !== index ? (
-                      <Mask
-                          width={paperSize.width + RULER_HEIGHT}
-                          height={paperSize.height + RULER_HEIGHT}
-                      />
-                  ) : (
-                      !editing && (
-                          <Moveable
-                              ref={moveable}
-                              target={activeElements}
-                              bounds={{ left: 0, top: 0, bottom: paperSize.height, right: paperSize.width }}
-                              horizontalGuidelines={getGuideLines(horizontalGuides.current, index)}
-                              verticalGuidelines={getGuideLines(verticalGuides.current, index)}
-                              keepRatio={isPressShiftKey}
-                              rotatable={rotatable}
-                              onDrag={onDrag}
-                              onDragEnd={onDragEnd}
-                              onDragGroupEnd={onDragEnds}
-                              onRotate={onRotate}
-                              onRotateEnd={onRotateEnd}
-                              onRotateGroupEnd={onRotateEnds}
-                              onResize={onResize}
-                              onResizeEnd={onResizeEnd}
-                              onResizeGroupEnd={onResizeEnds}
-                              onClick={onClickMoveable}
-                          />
-                      )
-                  )}
-                </>
+          if (newActiveElements != activeElements) {
+            setEditing(false);
+          }
+          // For MacOS CMD+SHIFT+3/4 screenshots where the keydown event is never received, check mouse too
+          if (!inputEvent.shiftKey) {
+            setIsPressShiftKey(false);
+          }
+        }}
+      />
+      <Paper
+        paperRefs={paperRefs}
+        scale={scale}
+        size={size}
+        schemasList={schemasList}
+        pageSizes={pageSizes}
+        backgrounds={backgrounds}
+        hasRulers={true}
+        renderPaper={({ index, paperSize }) => (
+          <>
+            {!editing && activeElements.length > 0 && pageCursor === index && (
+              <DeleteButton activeElements={activeElements} />
             )}
-            renderSchema={({ schema, index }) => {
-              const mode =
-                  editing && activeElements.map((ae) => ae.id).includes(schema.id)
-                      ? 'designer'
-                      : 'viewer'
-
-              const content = schema.content || '';
-              let value = content;
-
-              if (mode !== 'designer' && schema.readOnly) {
-                const variables = {
-                  ...schemasList.flat().reduce((acc, currSchema) => {
-                    acc[currSchema.name] = currSchema.content || '';
-                    return acc;
-                  }, {} as Record<string, string>),
-                  totalPages: schemasList.length,
-                  currentPage: index + 1,
-                };
-
-                value = replacePlaceholders({ content, variables, schemas: schemasList });
-              }
-
-              return (
-                  <Renderer
-                      key={schema.id}
-                      schema={schema}
-                      basePdf={basePdf}
-                      value={value}
-                      onChangeHoveringSchemaId={onChangeHoveringSchemaId}
-                      mode={mode}
-                      onChange={(arg) => {
-                        const args = Array.isArray(arg) ? arg : [arg];
-                        changeSchemas(args.map(({ key, value }) => ({ key, value, schemaId: schema.id })));
-                      }}
-                      stopEditing={() => setEditing(false)}
-                      outline={`1px ${hoveringSchemaId === schema.id ? 'solid' : 'dashed'} ${schema.readOnly && hoveringSchemaId !== schema.id ? 'transparent' : token.colorPrimary
-                      }`}
-                      scale={scale}
-                  />
+            <Padding basePdf={basePdf} />
+            <StaticSchema
+              template={{ schemas: schemasList, basePdf }}
+              input={Object.fromEntries(
+                schemasList.flat().map(({ name, content = '' }) => [name, content])
+              )}
+              scale={scale}
+              totalPages={schemasList.length}
+              currentPage={index + 1}
+            />
+            <Guides
+              paperSize={paperSize}
+              horizontalRef={(e) => {
+                if (e) horizontalGuides.current[index] = e;
+              }}
+              verticalRef={(e) => {
+                if (e) verticalGuides.current[index] = e;
+              }}
+            />
+            {pageCursor !== index ? (
+              <Mask
+                width={paperSize.width + RULER_HEIGHT}
+                height={paperSize.height + RULER_HEIGHT}
+              />
+            ) : (
+              !editing && (
+                <Moveable
+                  ref={moveable}
+                  target={activeElements}
+                  bounds={{ left: 0, top: 0, bottom: paperSize.height, right: paperSize.width }}
+                  horizontalGuidelines={getGuideLines(horizontalGuides.current, index)}
+                  verticalGuidelines={getGuideLines(verticalGuides.current, index)}
+                  keepRatio={isPressShiftKey}
+                  rotatable={rotatable}
+                  onDrag={onDrag}
+                  onDragEnd={onDragEnd}
+                  onDragGroupEnd={onDragEnds}
+                  onRotate={onRotate}
+                  onRotateEnd={onRotateEnd}
+                  onRotateGroupEnd={onRotateEnds}
+                  onResize={onResize}
+                  onResizeEnd={onResizeEnd}
+                  onResizeGroupEnd={onResizeEnds}
+                  onClick={onClickMoveable}
+                />
               )
-            }}
-        />
-      </div>
+            )}
+          </>
+        )}
+        renderSchema={({ schema, index }) => {
+          const mode =
+            editing && activeElements.map((ae) => ae.id).includes(schema.id)
+              ? 'designer'
+              : 'viewer'
+
+          const content = schema.content || '';
+          let value = content;
+
+          if (mode !== 'designer' && schema.readOnly) {
+            const variables = {
+              ...schemasList.flat().reduce((acc, currSchema) => {
+                acc[currSchema.name] = currSchema.content || '';
+                return acc;
+              }, {} as Record<string, string>),
+              totalPages: schemasList.length,
+              currentPage: index + 1,
+            };
+
+            value = replacePlaceholders({ content, variables, schemas: schemasList });
+          }
+
+          return (
+            <Renderer
+              key={schema.id}
+              schema={schema}
+              basePdf={basePdf}
+              value={value}
+              onChangeHoveringSchemaId={onChangeHoveringSchemaId}
+              mode={mode}
+              onChange={(arg) => {
+                const args = Array.isArray(arg) ? arg : [arg];
+                changeSchemas(args.map(({ key, value }) => ({ key, value, schemaId: schema.id })));
+              }}
+              stopEditing={() => setEditing(false)}
+              outline={`1px ${hoveringSchemaId === schema.id ? 'solid' : 'dashed'} ${schema.readOnly && hoveringSchemaId !== schema.id ? 'transparent' : token.colorPrimary
+                }`}
+              scale={scale}
+            />
+          )
+        }}
+      />
+    </div>
   );
 };
 export default forwardRef<HTMLDivElement, Props>(Canvas);

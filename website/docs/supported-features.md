@@ -5,10 +5,10 @@ For elements that are not supported, you can add your own rendering process usin
 
 ## Currently Supported
 
-For using schemas other than the Text schema, please refer to the following documentation.  
-[Using Schemas from @pdfme/schemas](/docs/custom-schemas#using-schemas-from-pdfmeschemas)
+**For using schemas other than the Text schema, please refer to the following documentation.  
+[Using Schemas from @pdfme/schemas](/docs/custom-schemas#using-schemas-from-pdfmeschemas)**
 
-### Text
+### Text (text)
 
 - Style-related
   - Font Size
@@ -28,22 +28,22 @@ For using schemas other than the Text schema, please refer to the following docu
   - Support for multiple fonts and fallback fonts
   - Dynamic Font Sizing
     - Detailed options for Min, Max, Fit
-- Support Read only
 
-### Multivariable Text
+### Multivariable Text (multiVariableText)
+
 - As per text, but supporting 0 to n variables in a single text field
 
 ### Shape
 
-- Line
+- **Line (line)**
   - Style-related
     - Color
-- Rectangle
+- **Rectangle (rectangle)**
   - Style-related
     - Border Width
     - Border Color
     - Color
-- Ellipse
+- **Ellipse (ellipse)**
   - Style-related
     - Border Width
     - Border Color
@@ -51,14 +51,12 @@ For using schemas other than the Text schema, please refer to the following docu
 
 ### Graphics
 
-- Image
+- **Image (image)**
   - Formats
     - JPEG
     - PNG
-  - Support Read only
-- SVG
-  - Support Read only
-- PDF (embed pdf inside pdf)
+    - PDF (embed pdf inside pdf)
+- **SVG (svg)**
 
 ### Barcodes
 
@@ -80,8 +78,10 @@ For using schemas other than the Text schema, please refer to the following docu
   - Text Color
   - [Include text option (planned support)](https://github.com/pdfme/pdfme/issues/23)
 
-### Table
+### Table (table)
+
 Details: [Tables with Dynamic Data](/docs/tables)
+
 - Style-related
   - Table
     - Border Width
@@ -101,9 +101,35 @@ Details: [Tables with Dynamic Data](/docs/tables)
   - Column
     - Text Align
 
+### Select (select)
+
+- Options
+- Style-related
+  - Font Name
+  - Font Size
+  - Letter Spacing
+  - Text Align
+  - Vertical Align
+  - Line Height
+  - Text Color
+  - Background Color
+
+### Date (date) / Time (time) / DateTime (dateTime)
+
+- Date Format
+- Style-related
+  - Font Name
+  - Font Size
+  - Letter Spacing
+  - Text Align
+  - Text Color
+  - Background Color
+
+### Radio Button (radioGroup) / Check Box (checkbox)
+
+- Style-related
+  - Color
+
 ## Planned Support
 
-- [Radio Button](https://github.com/pdfme/pdfme/issues/570)
-- [Check Box](https://github.com/pdfme/pdfme/issues/457)
-- [Date / Time / DateTime](https://github.com/pdfme/pdfme/issues/571)
 - [HyperLink](https://github.com/pdfme/pdfme/issues/319)

@@ -66,6 +66,12 @@ const config = {
         name: 'custom-docusaurus-plugin',
         configureWebpack() {
           const newConfig = {
+            resolve: {
+              fallback: {
+                fs: false,
+                path: require.resolve('path-browserify'),
+              },
+            },
             plugins: [
               new webpack.IgnorePlugin({
                 resourceRegExp: /canvas/,
@@ -118,6 +124,11 @@ const config = {
           to: '/blog',
           label: 'Blog',
           position: 'right'
+        },
+        {
+          href: 'https://playground.pdfme.com/',
+          label: 'Playground',
+          position: 'right',
         },
         {
           href: 'https://github.com/pdfme/pdfme',

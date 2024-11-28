@@ -229,7 +229,7 @@ export const buildStyledTextContainer = async (arg: UIRenderProps<TextSchema>, v
   };
 
   const textBlock = document.createElement('div');
-  textBlock.id = 'text-' + schema.id;
+  textBlock.id = 'text-' + String(schema.id);
   Object.assign(textBlock.style, textBlockStyle);
 
   container.appendChild(textBlock);
@@ -280,5 +280,5 @@ export const mapVerticalAlignToFlex = (verticalAlignmentValue: string | undefine
 
 export const getBackgroundColor = (value: string, schema: DateSchema) => {
   if (!value || !schema.backgroundColor) return 'transparent';
-  return schema.backgroundColor as string;
+  return schema.backgroundColor;
 };

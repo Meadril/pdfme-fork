@@ -1,12 +1,7 @@
 import React from 'react';
 import { Size } from '@pdfme/common';
 import { theme, Typography, Button } from 'antd';
-import {
-  LeftOutlined,
-  RightOutlined,
-  DoubleLeftOutlined,
-  DoubleRightOutlined,
-} from '@ant-design/icons';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 
 const { Text } = Typography;
 
@@ -18,10 +13,10 @@ type UnitButtonProps = {
 };
 
 const icons = {
-  left: LeftOutlined,
-  right: RightOutlined,
-  doubleLeft: DoubleLeftOutlined,
-  doubleRight: DoubleRightOutlined,
+  left: ChevronLeft,
+  right: ChevronRight,
+  doubleLeft: ChevronsLeft,
+  doubleRight: ChevronsRight,
 };
 
 const UnitButton: React.FC<UnitButtonProps> = ({ type, onClick, disabled, textStyle }) => {
@@ -29,11 +24,7 @@ const UnitButton: React.FC<UnitButtonProps> = ({ type, onClick, disabled, textSt
 
   return (
     <Button type="text" onClick={onClick} disabled={disabled}>
-      <Icon
-        style={{ color: textStyle.color }}
-        onPointerEnterCapture={undefined}
-        onPointerLeaveCapture={undefined}
-      />
+      <Icon style={{ color: textStyle.color }} />
     </Button>
   );
 };

@@ -6,6 +6,7 @@ export const Lang = z.enum(langs);
 export const Dict = z.object({
   // -----------------used in ui-----------------
   cancel: z.string(),
+  close: z.string(),
   field: z.string(),
   fieldName: z.string(),
   align: z.string(),
@@ -72,9 +73,17 @@ export const Dict = z.object({
 
   'schemas.table.alternateBackgroundColor': z.string(),
   'schemas.table.tableStyle': z.string(),
+  'schemas.table.showHead': z.string(),
   'schemas.table.headStyle': z.string(),
   'schemas.table.bodyStyle': z.string(),
   'schemas.table.columnStyle': z.string(),
+
+  'schemas.date.format': z.string(),
+
+  'schemas.select.options': z.string(),
+  'schemas.select.optionPlaceholder': z.string(),
+
+  'schemas.radioGroup.groupName': z.string(),
   'schemas.numberOfSides': z.string(),
   'schemas.mvt.showVariables': z.string(),
   'schemas.mvt.variablesList': z.string(),
@@ -113,6 +122,7 @@ export const BlankPdf = z.object({
   width: z.number(),
   height: z.number(),
   padding: z.tuple([z.number(), z.number(), z.number(), z.number()]),
+  staticSchema: z.array(Schema).optional(),
 });
 
 const CustomPdf = z.union([z.string(), ArrayBufferSchema, Uint8ArraySchema]);
