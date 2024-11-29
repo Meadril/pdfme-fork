@@ -190,6 +190,8 @@ export const buildStyledTextContainer = async (arg: UIRenderProps<TextSchema>, v
   const containerStyle: CSS.Properties = {
     padding: 0,
     resize: 'none',
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     backgroundColor: getBackgroundColor(value, schema),
     border: 'none',
     display: 'flex',

@@ -1,52 +1,37 @@
 import React, { useEffect, useContext } from 'react';
 import { DraggableSyntheticListeners } from '@dnd-kit/core';
 import { I18nContext } from '../../../../contexts';
-import { GripVertical, CircleAlert, Lock } from 'lucide-react'
+import { GripVertical, CircleAlert, Lock } from 'lucide-react';
 import { Button, Typography } from 'antd';
 
 const { Text } = Typography;
 
 interface Props {
-  value: React.ReactNode;
-  icon?: React.ReactNode;
-  style?: React.CSSProperties;
-  status?: 'is-warning' | 'is-danger';
-  title?: string;
-  required?: boolean;
-  readOnly?: boolean;
-  dragOverlay?: boolean;
-  onClick?: () => void;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
-  dragging?: boolean;
-  sorting?: boolean;
-  transition?: string;
-  transform?: { x: number; y: number; scaleX: number; scaleY: number } | null;
-  fadeIn?: boolean;
-  listeners?: DraggableSyntheticListeners;
+    value: any;
+    icon?: React.ReactNode;
+    style?: React.CSSProperties;
+    status?: 'is-warning' | 'is-danger';
+    title?: string;
+    required?: boolean;
+    readOnly?: boolean;
+    dragOverlay?: boolean;
+    onClick?: () => void;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
+    dragging?: boolean;
+    sorting?: boolean;
+    transition?: string;
+    transform?: { x: number; y: number; scaleX: number; scaleY: number } | null;
+    fadeIn?: boolean;
+    listeners?: DraggableSyntheticListeners;
 }
+
 const Item = React.memo(
   React.forwardRef<HTMLLIElement, Props>(
     (
       {
-        icon,
-        value,
-        status,
-        title,
-        required,
-        readOnly,
-        style,
-        dragOverlay,
-        onClick,
-        onMouseEnter,
-        onMouseLeave,
-        dragging,
-        fadeIn,
-        listeners,
-        sorting,
-        transition,
-        transform,
-        ...props
+          // eslint-disable-next-line react/prop-types,@typescript-eslint/no-unused-vars
+        icon, value, status, title, required, readOnly, style, dragOverlay, onClick, onMouseEnter, onMouseLeave, dragging, fadeIn, listeners, sorting, transition, transform, ...props
       },
       ref
     ) => {

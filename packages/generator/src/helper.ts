@@ -76,6 +76,7 @@ export const preprocessing = async (arg: { template: Template; userPlugins: Plug
   const staticSchema: Schema[] = isBlankPdf(basePdf) ? (basePdf.staticSchema ?? []) : [];
 
   const pdfDoc = await PDFDocument.create();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   pdfDoc.registerFontkit(fontkit);
 
@@ -123,7 +124,7 @@ export const postProcessing = (props: { pdfDoc: PDFDocument; options: GeneratorO
   pdfDoc.setCreationDate(creationDate);
   pdfDoc.setCreator(creator);
   pdfDoc.setKeywords(keywords);
-  pdfDoc.setLanguage(lang);
+  pdfDoc.setLanguage(lang as string);
   pdfDoc.setModificationDate(modificationDate);
   pdfDoc.setProducer(producer);
   pdfDoc.setSubject(subject);

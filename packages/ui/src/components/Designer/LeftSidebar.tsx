@@ -10,6 +10,7 @@ import { CSS } from "@dnd-kit/utilities";
 import Renderer from '../Renderer';
 import { PluginsRegistry } from '../../contexts';
 import PluginIcon from "./PluginIcon";
+import {LEFT_SIDEBAR_WIDTH} from "../../constants";
 
 const Draggable = (props: { plugin: Plugin<any>, scale: number, basePdf: BasePdf, children: React.ReactNode }) => {
   const { scale, basePdf, plugin } = props;

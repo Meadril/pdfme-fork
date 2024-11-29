@@ -1,6 +1,7 @@
 import { UIRenderProps } from '@pdfme/common';
 import { MeasurementPointSchema } from './types';
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const uiRender = async (arg: UIRenderProps<MeasurementPointSchema>): Promise<void> => {
   const { schema, rootElement } = arg;
   rootElement.style.width = '100%';
@@ -15,6 +16,8 @@ export const uiRender = async (arg: UIRenderProps<MeasurementPointSchema>): Prom
   <path d="M7.5 6L10.5 10L13.5 8L19.5 14" stroke="#1c8adb" stroke-width="1.2"/>
     </svg>`;
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   if (schema.appRender.measurements && schema.appRender.measurements.length === 1) {
     const chart = document.createElement('div');
     chart.style.width = '100%';

@@ -845,7 +845,6 @@ const dictFr: { [key in keyof Dict]: string } = {
   'schemas.mvt.showVariables': 'Afficher les variables',
   'schemas.mvt.variablesList': 'Liste des variables',
   'schemas.mvt.close': 'Fermer',
-  'schemas.table.columnStyle': 'Style de colonne',
   'schemas.date.format': 'Format de date',
   'schemas.select.options': 'Options',
   'schemas.select.optionPlaceholder': 'Entrez une option',

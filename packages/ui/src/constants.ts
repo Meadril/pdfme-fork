@@ -14,4 +14,3 @@ export const RIGHT_SIDEBAR_WIDTH = 400;
 
 export const BACKGROUND_COLOR = 'rgb(74, 74, 74)';
 
-export const LEFT_SIDEBAR_WIDTH = 45;
