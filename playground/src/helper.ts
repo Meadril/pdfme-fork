@@ -18,14 +18,12 @@ import {
   table,
   rectangle,
   ellipse,
-  radioButton,
   checkBox,
   measurementPoint,
   dateTime,
   date,
   time,
   select,
-  checkbox,
   radioGroup,
 } from '@pdfme/schemas';
 import plugins from './plugins';
@@ -71,14 +69,12 @@ export const getPlugins = () => {
     SVG: svg,
     Signature: plugins.signature,
     QR: barcodes.qrcode,
-    RadioButton: radioButton,
-    CheckBox: checkBox,
     MeasurementPoint: measurementPoint,
     DateTime: dateTime,
     Date: date,
     Time: time,
     Select: select,
-    Checkbox: checkbox,
+    Checkbox: checkBox,
     RadioGroup: radioGroup,
     // JAPANPOST: barcodes.japanpost,
     EAN13: barcodes.ean13,
@@ -811,15 +807,6 @@ const getInvoiceTemplate = (): Template => ({
   },
   pdfmeVersion: '5.0.0',
 });
-const getBlankTemplate = () =>
-    ({
-      schemas: [{}],
-      basePdf: {
-        width: 210,
-        height: 297,
-        padding: [10, 10, 10, 10],
-      },
-    } as Template);
 
 const getBlankTemplate = () =>
   ({ schemas: [{}], basePdf: { width: 210, height: 297, padding: [10, 10, 10, 10] } } as Template);

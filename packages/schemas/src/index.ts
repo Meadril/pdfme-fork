@@ -12,7 +12,7 @@ import date from './date/date';
 import time from './date/time';
 import select from './select/index';
 import radioGroup from './radioGroup/index';
-import checkbox from './checkBox/index';
+import checkBox from "./checkBox/index";
 
 const builtInPlugins = { Text: text };
 
@@ -33,6 +33,6 @@ export {
   time,
   select,
   radioGroup,
-  checkbox,
+  checkBox,
   measurementPoint,
 };
