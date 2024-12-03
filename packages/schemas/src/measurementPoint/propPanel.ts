@@ -42,8 +42,8 @@ export const propPanel: PropPanel<MeasurementPointSchema> = {
         ...parentPropPanel.defaultSchema,
         readOnly: false,
         type: 'MeasurementPoint',
-        width: 50,
-        height: 15,
-        appRender: { section: "", measurements: [] },
+        width: 24,
+        height: 24,
+        appRender: { section: "", measurements: [{id: 1, name: 'all', data: [] }]},
     },
 };

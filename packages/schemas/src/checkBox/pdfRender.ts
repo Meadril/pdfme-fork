@@ -7,9 +7,9 @@ const getUncheckedIcon = (color: string, buttons: [], width: number) => {
     const spacing = width / buttons.length;
 
     for (let i = 0; i < buttons.length; i++) {
-        paths += `M ${spacing * i + 3},3 h18 v18 h-18 z`;
+        paths += `M ${spacing * i + 3},3 h18 v18 h-18 z `;
     }
-    return paths;
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 ${width} 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square" style="display: block; margin: auto; max-width: 210mm; max-height: 297mm;"><path d="${paths}" /></svg>`;
 };
 
 const getIcon = ({ color, buttons, width }: { color: string, buttons: [], width: number }) => {
@@ -17,7 +17,8 @@ const getIcon = ({ color, buttons, width }: { color: string, buttons: [], width:
 };
 
 export const pdfRender = (arg: PDFRenderProps<CheckBoxSchema>) => {
-    const { page, schema } = arg;
+    const { page, schema, } = arg;
+
     if (!schema.appRender.buttons) return;
     const pageHeight = page.getHeight();
     const { width, position } = convertForPdfLayoutProps({ schema, pageHeight });

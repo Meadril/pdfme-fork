@@ -22,7 +22,7 @@ const MeasurementWidget = (props: PropPanelWidgetProps) => {
 
     const addItem = () => {
         if (inputValue.trim() !== '') {
-            const newItems = [...items, { id: (items.length + 1), label: inputValue, checked: false }];
+            const newItems = [...items, { id: (items.length + 1), label: inputValue, data: [] }];
             setItems(newItems);
             setInputValue('');
             updateSchemas(newItems);
@@ -45,19 +45,6 @@ const MeasurementWidget = (props: PropPanelWidgetProps) => {
             ]}
         >
             <Typography>{`${item.id}. ${item.label}`}</Typography>
-            <Select
-                defaultValue={1}
-                style={{ width: 120 }}
-                onChange={(value) => {
-                    const newItems = items.map((i) => (i.id === item.id ? { ...i, selectedValue: value } : i));
-                    setItems(newItems);
-                    updateSchemas(newItems);
-                }}
-            >
-                <Select.Option value={1}>1</Select.Option>
-                <Select.Option value={2}>2</Select.Option>
-                <Select.Option value={3}>3</Select.Option>
-            </Select>
         </List.Item>
     );
 

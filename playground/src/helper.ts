@@ -115,7 +115,7 @@ export const generatePDF = async (currentRef: Designer ) => {
       inputs,
       options: {
         font,
-        lang: options.lang,
+        lang: 'en',
         title: 'pdfme',
       },
       plugins: getPlugins(),
