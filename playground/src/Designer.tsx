@@ -1,43 +1,28 @@
 import { useRef, useState } from "react";
-import { cloneDeep, Template, checkTemplate, Lang } from "@pdfme/common";
+import { Template, checkTemplate, Lang } from "@pdfme/common";
 import { Designer } from "@pdfme/ui";
 import {
   getFontsData,
-  getTemplatePresets,
   getTemplateByPreset,
-  readFile,
-  getPlugins,
-  handleLoadTemplate,
-  generatePDF,
-  downloadJsonFile,
-  translations,
+  getPlugins, generatePDF,
 } from "./helper";
+import {templateVersion} from "./constants.ts";
 
-const headerHeight = 80;
-
-const initialTemplatePresetKey = "invoice"
-const customTemplatePresetKey = "custom";
-
-const templatePresets = getTemplatePresets();
 
 function App() {
   const designerRef = useRef<HTMLDivElement | null>(null);
   const designer = useRef<Designer | null>(null);
   const [lang, setLang] = useState<Lang>('en');
-  const [templatePreset, setTemplatePreset] = useState<string>(localStorage.getItem("templatePreset") || initialTemplatePresetKey);
   const [prevDesignerRef, setPrevDesignerRef] = useState<Designer | null>(null);
 
   const buildDesigner = () => {
     let template: Template = getTemplateByPreset(localStorage.getItem('templatePreset') || "");
     try {
       const templateString = localStorage.getItem("template");
-      if (templateString) {
-        setTemplatePreset(customTemplatePresetKey);
-      }
 
       const templateJson = templateString
-        ? JSON.parse(templateString)
-        : getTemplateByPreset(localStorage.getItem('templatePreset') || "");
+          ? JSON.parse(templateString)
+          : getTemplateByPreset(localStorage.getItem('templatePreset') || "");
       checkTemplate(templateJson);
       template = templateJson as Template;
     } catch {
@@ -71,9 +56,6 @@ function App() {
           plugins: getPlugins(),
         });
         designer.current.onSaveTemplate(onSaveTemplate);
-        designer.current.onChangeTemplate(() => {
-          setTemplatePreset(customTemplatePresetKey);
-        })
       }
     });
   }
