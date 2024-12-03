@@ -36,8 +36,14 @@ export const propPanel: PropPanel<CheckBoxSchema> = {
         ...parentPropPanel.defaultSchema,
         readOnly: false,
         type: 'CheckBox',
-        width: 50,
-        height: 15,
-        appRender: { section: "", buttons: [] },
+        position: { x: 10, y: 10 },
+        width: 24,
+        height: 24,
+        appRender: { section: "", buttons: [
+                { id: 1, label: "Option 1", checked: false },
+                { id: 2, label: "Option 2", checked: false },
+                { id: 3, label: "Option 3", checked: false },
+            ]
+        },
     },
 };
