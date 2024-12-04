@@ -54,6 +54,6 @@ export const propPanel: PropPanel<MeasurementPointSchema> = {
         type: 'MeasurementPoint',
         width: 24,
         height: 24,
-        appRender: { measurementPoint: "", norm: "", measurements: [{id: 1, label: 'Overview', data: '' }]},
+        appRender: { measurementPoint: "", norm: "", measurements: [{id: 1, label: 'Overview', data: [] }]},
     },
 };

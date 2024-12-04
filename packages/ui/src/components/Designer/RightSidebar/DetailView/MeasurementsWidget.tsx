@@ -5,7 +5,7 @@ import type { PropPanelWidgetProps } from '@pdfme/common';
 interface ListItem {
     id: number;
     label: string;
-    data: number[];
+    data: ArrayBuffer[];
 }
 
 const MeasurementWidget = (props: PropPanelWidgetProps) => {

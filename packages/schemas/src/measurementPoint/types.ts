@@ -4,6 +4,6 @@ export interface MeasurementPointSchema extends Schema {
   appRender: {
     measurementPoint: string;
     norm: string;
-    measurements: [{ id: number; label: string; data: string }];
+    measurements: [{ id: number; label: string; data: ArrayBuffer[]; }];
   };
 }
