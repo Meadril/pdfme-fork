@@ -13,7 +13,7 @@ const MeasurementWidget = (props: PropPanelWidgetProps) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    const [items, setItems] = useState<ListItem[]>(activeSchema.appRender.measurements || []);
+    const [items, setItems] = useState<ListItem[]>(activeSchema.appRender.measurements);
     const [inputValue, setInputValue] = useState('');
 
     const updateSchemas = (newItems: ListItem[]) => {
@@ -38,11 +38,11 @@ const MeasurementWidget = (props: PropPanelWidgetProps) => {
     const renderItem = (item: ListItem, index: number) => (
         <List.Item
             key={item.id}
-            actions={[
+            actions={index !== 0 ? [
                 <Button key={`delete-${item.id}`} onClick={() => deleteItem(item.id)}>
                     Delete
                 </Button>,
-            ]}
+            ] : undefined}
         >
             <Typography>{`${item.id}. ${item.label}`}</Typography>
         </List.Item>

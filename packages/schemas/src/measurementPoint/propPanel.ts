@@ -4,35 +4,45 @@ import { MeasurementPointSchema } from './types';
 
 export const propPanel: PropPanel<MeasurementPointSchema> = {
     schema: (propPanelProps: Omit<PropPanelWidgetProps, 'rootElement'>) => {
-        if (typeof parentPropPanel.schema !== 'function') {
-            throw Error('Oops, is text schema no longer a function?');
-        }
-
         return {
-            ...parentPropPanel.schema(propPanelProps),
-            appRender: {
-                title: 'App Render',
-                type: 'object',
-                widget: 'Divider',
-            },
             section: {
                 title: 'Section',
                 type: 'string',
                 widget: 'Input',
                 span: 24,
             },
-            measurementPoint: {
-                title: 'Measurement Point',
-                type: 'string',
-                widget: 'Input',
-                span: 24,
+            appRender: {
+                type: 'object',
+                properties: {
+                    measurementPoint: {
+                        title: 'Measurement Point',
+                        type: 'string',
+                        widget: 'Input',
+                        span: 24,
+                        required: true,
+                    },
+                    norm: {
+                        title: 'Norm',
+                        type: 'string',
+                        widget: 'select',
+                        props: {
+                            options: [
+                                { label: "EN 12453:2017", value: "EN 12453:2017" },
+                                { label: "EN 16005:2012", value: "EN 16005:2012" },
+                                { label: "EN 1414120:2015", value: "EN 1414120:2015" },
+                            ],
+                        },
+                        required: true,
+                    },
+                    measurements: {
+                        title: 'Measurements',
+                        type: 'array',
+                        widget: 'Measurement',
+                        span: 24,
+                        required: true,
+                    }
+                }
             },
-            measurements: {
-                title: 'Measurements',
-                type: 'array',
-                widget: 'Measurement',
-                span: 24,
-            }
         }
     },
     widgets: {
@@ -44,6 +54,6 @@ export const propPanel: PropPanel<MeasurementPointSchema> = {
         type: 'MeasurementPoint',
         width: 24,
         height: 24,
-        appRender: { section: "", measurements: [{id: 1, name: 'all', data: [] }]},
+        appRender: { measurementPoint: "", norm: "", measurements: [{id: 1, label: 'Overview', data: '' }]},
     },
 };

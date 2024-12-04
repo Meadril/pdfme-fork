@@ -2,7 +2,7 @@ import type { Schema } from '@pdfme/common';
 
 export interface CheckBoxSchema extends Schema {
   appRender: {
-    section: '';
+    title: string,
     buttons: [
       {
         id: number;

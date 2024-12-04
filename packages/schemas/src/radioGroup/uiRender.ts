@@ -25,7 +25,7 @@ export const uiRender = (arg: UIRenderProps<RadioButtonSchema>) => {
     // Checkbox-Container
     const radioButtonContainer = document.createElement('div');
     radioButtonContainer.style.display = 'flex';
-    radioButtonContainer.style.gap = `${Math.min(spacing / 4, 10)}px`; // Optional: kleiner Abstand zwischen den Checkboxen
+    radioButtonContainer.style.gap = `${Math.min(spacing / 4, 10)}px`; // Optional: kleiner Abstand zwischen den RadioButtons
     radioButtonContainer.style.justifyContent = 'center';
     radioButtonContainer.style.alignItems = 'center';
     radioButtonContainer.style.width = `${containerWidth}px`;
